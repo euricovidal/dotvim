@@ -31,3 +31,6 @@ let g:syntastic_check_on_open=1
 nnoremap <leader>p :CtrlP<CR>
 " call CtrlP list of buffer files
 nnoremap <leader>P :CtrlPBuffer<CR>
+
+" set show relative path on bufexplorer
+let g:bufExplorerShowRelativePath=1
