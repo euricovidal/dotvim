@@ -9,3 +9,15 @@ set laststatus=2
 
 " set Powerline mode
 let g:Powerline_symbols = 'fancy'
+
+" auto detect type of file
+filetype on
+
+" auto focus on errors/warnings
+let g:syntastic_auto_jump=0
+" symbol when have errors
+let g:syntastic_error_symbol='✗'
+" symbol when have warnings
+let g:syntastic_warning_symbol='⚠'
+" check syntax when its open
+let g:syntastic_check_on_open=1
