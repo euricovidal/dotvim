@@ -1,5 +1,19 @@
+" auto detect type of file
+filetype on
+" auto detect type of plugin
+filetype plugin on
+" enable filetype-based indentation
+filetype indent on
+
 " call the init pathogen
 call pathogen#infect()
+call pathogen#helptags()
+
+" set colorscheme
+color molokai
+
+" enable syntax highlighting
+syntax on
 
 " For ruby, autoindent with two spaces, always expand tabs
 autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
@@ -7,7 +21,7 @@ autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 
 " For python autoindent with four spaces
 autocmd FileType php,python set sw=4 sts=4 et
 
-" Highlight characters longer than 80 characters
+" Highlight characters longer than 120 characters
 autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
 autocmd BufEnter * match OverLength /\%120v.*/
 
@@ -98,6 +112,14 @@ set novisualbell
 " no noise
 set noerrorbells
 
+" enhanced command line completion
+set wildmenu
+" complete files like a shell
+set wildmode=longest:full,full
+
+" see chars tab and space(trail)
+set list listchars=tab:»·,trail:·
+
 " change leader key
 let mapleader=","
 
@@ -126,19 +148,6 @@ nnoremap ; :
 " set statusline+=%c,                                             " cursor column
 " set statusline+=%l/%L                                           " cursor line/total lines
 " set statusline+=\ %P                                            " percent through file
-
-" set colorscheme
-color molokai
-
-" auto detect type of file
-filetype on
-" auto detect type of plugin
-filetype plugin on
-" enable filetype-based indentation
-filetype indent on
-
-" enable syntax highlighting
-syntax on
 
 " set Powerline mode
 let g:Powerline_symbols = 'fancy'
@@ -249,8 +258,7 @@ function! MapCR()
 endfunction
 call MapCR()
 
-" SWITCH BETWEEN TEST AND PRODUCTION CODE
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" switch between test and production code
 function! OpenTestAlternate()
   let new_file = AlternateForCurrentFile()
   exec ':e ' . new_file
