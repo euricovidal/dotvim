@@ -13,6 +13,9 @@ let g:Powerline_symbols = 'fancy'
 " auto detect type of file
 filetype on
 
+" enable syntax highlighting
+syntax on
+
 " auto focus on errors/warnings
 let g:syntastic_auto_jump=0
 " symbol when have errors
