@@ -158,6 +158,17 @@ let g:bufExplorerShowRelativePath=1
 " yankring path to history
 let g:yankring_history_dir="~/.vim/tmp"
 
+" set name of modes of show (Visual, Normal, Replace, Insert, Select)
+let g:Powerline_mode_v  = 'V'
+let g:Powerline_mode_V  = 'V⋅LINE'
+let g:Powerline_mode_cv = 'V⋅BLOCK'
+let g:Powerline_mode_s  = 'S'
+let g:Powerline_mode_S  = 'S⋅LINE'
+let g:Powerline_mode_cs = 'S⋅BLOCK'
+let g:Powerline_mode_i  = 'I'
+let g:Powerline_mode_R  = 'R'
+let g:Powerline_mode_n  = 'N'
+
 " Use sane regexes.
 nnoremap / /\v
 vnoremap / /\v
