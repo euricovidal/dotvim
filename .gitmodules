@@ -64,3 +64,6 @@
 [submodule "bundle/kwbdi"]
 	path = bundle/kwbdi
 	url = https://github.com/vim-scripts/kwbdi.vim.git
+[submodule "bundle/matchit"]
+	path = bundle/matchit
+	url = https://github.com/Kris2k/matchit.git

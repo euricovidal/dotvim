@@ -91,6 +91,9 @@ set noerrorbells
 " change leader key
 let mapleader=","
 
+" Aliasing the new leader ',' to the default one '\'
+nmap \ ,
+
 " don't need to press the shift key :
 nnoremap ; :
 
@@ -144,6 +147,10 @@ let g:bufExplorerShowRelativePath=1
 
 " yankring path to history
 let g:yankring_history_dir="~/.vim/tmp"
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
 
 " call CtrlP list of all files
 nnoremap <leader>p :CtrlP<CR>
@@ -200,6 +207,13 @@ map! <Esc>OF <End>
 " use sudo to write the file
 cmap w!! w !sudo tee % >/dev/null
 
+" Clear the search buffer when hitting return
+function! MapCR()
+  nnoremap <cr> :nohlsearch<cr>
+endfunction
+call MapCR()
+
+
 if has("autocmd")
   autocmd BufWritePost .vimrc source $MYVIMRC " apply .vimrc settings on save
   autocmd BufWritePre * :call <SID>StripTrailingWhitespaces() " remove trailing white spaces before saving (only in specified filetypes)
@@ -214,8 +228,7 @@ function! <SID>StripTrailingWhitespaces()
   let c = col(".")
   " Do the business:
   %s/\s\+$//e
-  " Clean up: restore previous search history, and cursor
-  position
+  " Clean up: restore previous search history, and cursor position
   let @/=_s
   call cursor(l, c)
 endfunction
