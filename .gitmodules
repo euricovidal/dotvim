@@ -58,3 +58,9 @@
 [submodule "bundle/yankring"]
 	path = bundle/yankring
 	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule "bundle/molokai"]
+	path = bundle/molokai
+	url = https://github.com/tomasr/molokai.git
+[submodule "bundle/kwbdi"]
+	path = bundle/kwbdi
+	url = https://github.com/vim-scripts/kwbdi.vim.git
