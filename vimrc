@@ -1,6 +1,9 @@
 " call the init pathogen
 call pathogen#infect()
 
+" set encoding with utf-8
+set encoding=utf-8
+
 " do not use vi compatibility mode. must come first because it changes other options
 set nocompatible
 
@@ -79,6 +82,12 @@ set showmatch
 " disable swap of file
 set noswapfile
 
+" no blinking
+set novisualbell
+
+" no noise
+set noerrorbells
+
 " change leader key
 let mapleader=","
 
@@ -152,12 +161,95 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 
 " keep window on buffer delete
 nmap <silent> <leader>bd <Plug>Kwbd
-"
-" " use tagbar
-" nmap <silent> <leader>b :TagbarToggle<CR>
-"
-" " to use CtrlP
-" nnoremap <leader>p :CtrlP<CR>
-"
-" " use Ctrl-P to buffers
-" nnoremap <leader>P :CtrlPBuffer<CR>
+
+" use tagbar
+nmap <silent> <leader>b :TagbarToggle<CR>
+
+" mapping for function above
+map <leader>bw :call Wipeout()<CR>
+
+" NerdTree
+map <leader>nt :NERDTreeToggle<CR>
+
+" JSON Format
+map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
+
+" XML Format
+map <leader>xt <Esc>:1,$!xmllint --format -<CR>
+
+" Tab next
+nnoremap <C-w>k :tabnew %<CR>
+nnoremap <C-w>l :tabprevious<CR>
+nnoremap <C-w>h :tabnext<CR>
+
+" Remove file
+"nnoremap <C-D> :!rm %<CR>
+
+" switch to last used buffer
+nnoremap <leader>l :e#<CR>
+
+" TagList of functions
+map <leader>t :TlistToggle<CR>
+
+" tmux fixes
+map <Esc>OH <Home>
+map! <Esc>OH <Home>
+map <Esc>OF <End>
+map! <Esc>OF <End>
+
+" use sudo to write the file
+cmap w!! w !sudo tee % >/dev/null
+
+if has("autocmd")
+  autocmd BufWritePost .vimrc source $MYVIMRC " apply .vimrc settings on save
+  autocmd BufWritePre * :call <SID>StripTrailingWhitespaces() " remove trailing white spaces before saving (only in specified filetypes)
+endif
+
+" function to remove trailing white space (while saving cursor position)
+" http://vimcasts.org/episodes/tidying-whitespace/
+function! <SID>StripTrailingWhitespaces()
+  " Preparation: save last search, and cursor position.
+  let _s=@/
+  let l = line(".")
+  let c = col(".")
+  " Do the business:
+  %s/\s\+$//e
+  " Clean up: restore previous search history, and cursor
+  position
+  let @/=_s
+  call cursor(l, c)
+endfunction
+
+" function to delete all hidden buffers
+function! Wipeout()
+  " list of *all* buffer numbers
+  let l:buffers = range(1, bufnr('$'))
+
+  " what tab page are we in?
+  let l:currentTab = tabpagenr()
+  try
+    " go through all tab pages
+    let l:tab = 0
+    while l:tab < tabpagenr('$')
+      let l:tab += 1
+
+      " go through all windows
+      let l:win = 0
+      while l:win < winnr('$')
+        let l:win += 1
+        " whatever buffer is in this window in this tab, remove it from
+        " l:buffers list
+        let l:thisbuf = winbufnr(l:win)
+        call remove(l:buffers, index(l:buffers, l:thisbuf))
+      endwhile
+    endwhile
+
+    " if there are any buffers left, delete them
+    if len(l:buffers)
+      execute 'bwipeout' join(l:buffers)
+    endif
+  finally
+    " go back to our original tab page
+    execute 'tabnext' l:currentTab
+  endtry
+endfunction
