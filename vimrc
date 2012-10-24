@@ -24,3 +24,9 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 " check syntax when its open
 let g:syntastic_check_on_open=1
+
+" call CtrlP list of all files
+nnoremap <leader>p :CtrlP<CR>
+
+" call CtrlP list of buffer files
+nnoremap <leader>P :CtrlPBuffer<CR>
