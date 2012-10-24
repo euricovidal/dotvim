@@ -1,6 +1,16 @@
 " call the init pathogen
 call pathogen#infect()
 
+" For ruby, autoindent with two spaces, always expand tabs
+autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+
+" For python autoindent with four spaces
+autocmd FileType php,python set sw=4 sts=4 et
+
+" Highlight characters longer than 80 characters
+autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
+autocmd BufEnter * match OverLength /\%120v.*/
+
 " set encoding with utf-8
 set encoding=utf-8
 
@@ -152,8 +162,15 @@ let g:yankring_history_dir="~/.vim/tmp"
 nnoremap / /\v
 vnoremap / /\v
 
+" autocomplete for all methods (by ctags)
+inoremap <leader><TAB> <C-X><C-]>
+
+" re-ctags all methods and gems
+map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><CR>
+
 " call CtrlP list of all files
 nnoremap <leader>p :CtrlP<CR>
+inoremap <leader>p <ESC>:CtrlP<CR>
 " call CtrlP list of buffer files
 nnoremap <leader>P :CtrlPBuffer<CR>
 
@@ -162,6 +179,14 @@ nnoremap <leader>l :e#<CR>
 
 " YankRing mapping
 nnoremap <leader>y :YRShow<CR>
+
+" System clipboard interaction
+nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
+vnoremap <leader>Y :!pbcopy<CR>uk<CR>
+"noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+
+" Find merge conflict markers
+nmap <silent> <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
 " clears the search register
 nmap <silent> <leader>/ :nohlsearch<CR>
@@ -213,6 +238,46 @@ function! MapCR()
 endfunction
 call MapCR()
 
+" SWITCH BETWEEN TEST AND PRODUCTION CODE
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! OpenTestAlternate()
+  let new_file = AlternateForCurrentFile()
+  exec ':e ' . new_file
+endfunction
+function! AlternateForCurrentFile()
+  let current_file = expand("%")
+  let new_file = current_file
+  let in_spec = match(current_file, '^spec/') != -1
+  let going_to_spec = !in_spec
+  let in_app = match(current_file, '\<controllers\>') != -1 || match(current_file, '\<models\>') != -1 || match(current_file, '\<views\>') != -1
+  if going_to_spec
+    if in_app
+      let new_file = substitute(new_file, '^app/', '', '')
+    end
+    let new_file = substitute(new_file, '\.rb$', '_spec.rb', '')
+    let new_file = 'spec/' . new_file
+  else
+    let new_file = substitute(new_file, '_spec\.rb$', '.rb', '')
+    let new_file = substitute(new_file, '^spec/', '', '')
+    if in_app
+      let new_file = 'app/' . new_file
+    end
+  endif
+  return new_file
+endfunction
+nnoremap <leader>. :call OpenTestAlternate()<cr>
+
+" rename file
+function! RenameFile()
+  let old_name = expand('%')
+  let new_name = input('New file name: ', expand('%'), 'file')
+  if new_name != '' && new_name != old_name
+    exec ':saveas ' . new_name
+    exec ':silent !rm ' . old_name
+    redraw!
+  endif
+endfunction
+map <leader>n :call RenameFile()<cr>
 
 if has("autocmd")
   autocmd BufWritePost .vimrc source $MYVIMRC " apply .vimrc settings on save
