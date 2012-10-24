@@ -67,3 +67,6 @@
 [submodule "bundle/matchit"]
 	path = bundle/matchit
 	url = https://github.com/Kris2k/matchit.git
+[submodule "bundle/supertab"]
+	path = bundle/supertab
+	url = https://github.com/ervandew/supertab.git
