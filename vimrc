@@ -253,10 +253,10 @@ map! <Esc>OF <End>
 cmap w!! w !sudo tee % >/dev/null
 
 " Clear the search buffer when hitting return
-function! MapCR()
-  nnoremap <cr> :nohlsearch<cr>
-endfunction
-call MapCR()
+"function! MapCR()
+  "nnoremap <cr> :nohlsearch<cr>
+"endfunction
+"call MapCR()
 
 " switch between test and production code
 function! OpenTestAlternate()
