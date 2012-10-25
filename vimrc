@@ -115,7 +115,7 @@ set noerrorbells
 " enhanced command line completion
 set wildmenu
 " complete files like a shell
-set wildmode=longest:full,full
+set wildmode=longest:list,full
 
 " see chars tab and space(trail)
 set list listchars=tab:»·,trail:·
