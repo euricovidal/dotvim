@@ -1,15 +1,24 @@
-" auto detect type of file
-filetype on
-" auto detect type of plugin
-filetype plugin on
-" enable filetype-based indentation
-filetype indent on
+" .vimrc
+" Author: Eurico Vidal <euricovidal@gmail.com>
+" Source: https://github.com/euricovidal/dotvim.git
+"
+" This file has changes a lot, I will try to document it
 
-" call the init pathogen
+" Preample -------------------------------------------------------------------------- {{{
+
 call pathogen#runtime_append_all_bundles()
+filetype plugin indent on
+set nocompatible
+
+" }}}
+" Basic options --------------------------------------------------------------------- {{{
 
 " set colorscheme
 color molokai
+
+" }}}
+
+
 
 " enable syntax highlighting
 syntax on
@@ -27,9 +36,6 @@ autocmd BufEnter * match OverLength /\%120v.*/
 " set encoding with utf-8
 set encoding=utf-8
 
-" do not use vi compatibility mode. must come first because it changes other options
-set nocompatible
-
 " show status line, to Powerline Style
 set laststatus=2
 
@@ -38,7 +44,7 @@ set backspace=indent,eol,start
 
 " use the same symbols as TextMate for tabstops and EOLs
 set list
-set listchars=tab:▸\ ,eol:¬,extends:❯
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 
 " show the break lines
 set showbreak=↪
@@ -64,19 +70,22 @@ set linebreak
 set nowrap
 
 " highlight N columns (cc)
-set colorcolumn=120
+"set colorcolumn=120
 
 " show highlight columns on cursor
 set cursorcolumn
 
-" Don't try to highlight lines longer than 300 characters.
-set synmaxcol=300
+" Don't try to highlight lines longer than 1000 characters.
+set synmaxcol=1000
 
 " show highlight line on cursor
 set cursorline
 
 " enable to out file without save (on buffer)
 set hidden
+
+" enable mouse on Vim
+set mouse=a
 
 " EOL format
 set fileformats=unix,mac,dos
@@ -108,7 +117,7 @@ set smartindent
 set textwidth=90
 
 " keep 100 cmdline history
-set history=10
+set history=100
 
 " set title window (file name and path)
 set title
@@ -145,9 +154,6 @@ set wildignore+=*.sw?                            " Vim swap files
 set wildignore+=*.DS_Store                       " OSX bullshit
 set wildignore+=*.pyc                            " Python byte code
 set wildignore+=*.orig                           " Merge resolution files
-
-" see chars tab and space(trail)
-set list listchars=tab:»·,trail:·
 
 " folding level start
 set foldlevelstart=0
@@ -218,6 +224,7 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " set Powerline mode
 let g:Powerline_symbols = 'fancy'
+let g:Powerline_cache_enabled = 1
 
 " auto focus on errors/warnings
 let g:syntastic_auto_jump=0
@@ -227,6 +234,8 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 " check syntax when its open
 let g:syntastic_check_on_open=1
+" better layout to show errors and warning
+let g:syntastic_stl_format = '[%E{%e Errors}%B{, }%W{%w Warnings}]'
 
 " set show relative path on bufexplorer
 let g:bufExplorerShowRelativePath=1
@@ -258,20 +267,10 @@ map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`
 " Toggle line numbers
 nnoremap <leader>n :setlocal number!<cr>
 
-" call CtrlP list of all files
-nnoremap <leader>p :CtrlP<CR>
+" call CtrlP list of all files on insert mode
 inoremap <leader>p <ESC>:CtrlP<CR>
-" call CtrlP list of buffer files
-nnoremap <leader>P :CtrlPBuffer<CR>
-
-let g:ctrlp_dont_split = 'NERD_tree_2'
-let g:ctrlp_jump_to_buffer = 0
-let g:ctrlp_map = '<leader>,'
-let g:ctrlp_working_path_mode = 0
-let g:ctrlp_match_window_reversed = 1
-let g:ctrlp_split_window = 0
-let g:ctrlp_max_height = 20
-let g:ctrlp_extensions = ['tag']
+let g:ctrlp_map = '<leader>p'
+let g:ctrlp_max_height = 10
 
 " switch to last used buffer
 nnoremap <leader>l :e#<CR>
@@ -282,7 +281,7 @@ nnoremap <leader>y :YRShow<CR>
 " System clipboard interaction
 nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
 vnoremap <leader>Y :!pbcopy<CR>uk<CR>
-"noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
 
 " System clipboard interaction.  Mostly from:
 " https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
@@ -307,9 +306,6 @@ vnoremap L g_
 " Find merge conflict markers
 nmap <silent> <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
-" clears the search register
-nmap <silent> <leader>/ :nohlsearch<CR>
-
 " keep window on buffer delete
 nmap <silent> <leader>bd <Plug>Kwbd
 
@@ -319,12 +315,21 @@ nmap <silent> <leader>b :TagbarToggle<CR>
 " mapping for function above
 map <leader>bw :call Wipeout()<CR>
 
-" Toggle "keep current line in the center of the screen" mode
+" Toggle keep current line in the center of the screen mode
 nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
 
+nnoremap <silent> <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
 nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
 nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
 nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+
+" clears the highlight
+noremap <silent> <leader>/ :nohl<cr>:call clearmatches()<cr>
+
+highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
+highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
+highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
+highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
 
 " NerdTree
 map <leader>nt :NERDTreeToggle<CR>
