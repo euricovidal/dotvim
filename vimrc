@@ -6,8 +6,7 @@ filetype plugin on
 filetype indent on
 
 " call the init pathogen
-call pathogen#infect()
-call pathogen#helptags()
+call pathogen#runtime_append_all_bundles()
 
 " set colorscheme
 color molokai
@@ -38,7 +37,21 @@ set laststatus=2
 set backspace=indent,eol,start
 
 " use the same symbols as TextMate for tabstops and EOLs
-set listchars=tab:▸\ ,eol:¬
+set list
+set listchars=tab:▸\ ,eol:¬,extends:❯
+
+" show the break lines
+set showbreak=↪
+
+"?????????
+set fillchars=diff:⣿,vert:│
+
+" Toggle paste
+" TODO to define other key
+set pastetoggle=<C-g>
+
+" disable relative line numbers
+set norelativenumber
 
 " show numbers of line
 set number
@@ -47,16 +60,23 @@ set number
 set linebreak
 
 " set no word rap line
+" TODO when split vert wrap line, but without split dont wrap line but colorize background
 set nowrap
 
-" highlight N columns
-set cc=120
+" highlight N columns (cc)
+set colorcolumn=120
 
 " show highlight columns on cursor
 set cursorcolumn
 
+" Don't try to highlight lines longer than 300 characters.
+set synmaxcol=300
+
 " show highlight line on cursor
 set cursorline
+
+" enable to out file without save (on buffer)
+set hidden
 
 " EOL format
 set fileformats=unix,mac,dos
@@ -84,12 +104,11 @@ set autoindent
 " should be the same value of shiftwidth
 set smartindent
 
+" break line when has 90 characters
+set textwidth=90
+
 " keep 100 cmdline history
 set history=10
-
-" persistent undo
-set undofile
-set undodir=~/.vim/tmp
 
 " set title window (file name and path)
 set title
@@ -116,9 +135,39 @@ set noerrorbells
 set wildmenu
 " complete files like a shell
 set wildmode=longest:list,full
+" wildmenu ignore extensions
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
+set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.orig                           " Merge resolution files
 
 " see chars tab and space(trail)
 set list listchars=tab:»·,trail:·
+
+" Backups
+set backup                        " enable backups
+set noswapfile                    " disable swapfiles
+set undofile                      " enable undo
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+
+" Make those folders automatically if they don't already exist.
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), 'p')
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), 'p')
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), 'p')
+endif
 
 " change leader key
 let mapleader=","
@@ -128,6 +177,21 @@ nmap \ ,
 
 " don't need to press the shift key :
 nnoremap ; :
+
+" Resize splits when the window is resized
+au VimResized * :wincmd =
+
+" Make sure Vim returns to the same line when you reopen a file
+augroup line_return
+    au!
+    au BufReadPost *
+        \ if line("'\"") > 0 && line("'\"") <= line("$") |
+        \     execute 'normal! g`"zvzz' |
+        \ endif
+augroup END
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Useful status information at bottom of screen
 " "set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{fugitive#statusline()}\
@@ -165,7 +229,7 @@ let g:syntastic_check_on_open=1
 let g:bufExplorerShowRelativePath=1
 
 " yankring path to history
-let g:yankring_history_dir="~/.vim/tmp"
+let g:yankring_history_dir='~/.vim/tmp/'
 
 " set name of modes of show (Visual, Normal, Replace, Insert, Select)
 let g:Powerline_mode_v  = 'V'
@@ -188,6 +252,9 @@ inoremap <leader><TAB> <C-X><C-]>
 " re-ctags all methods and gems
 map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><CR>
 
+" Toggle line numbers
+nnoremap <leader>n :setlocal number!<cr>
+
 " call CtrlP list of all files
 nnoremap <leader>p :CtrlP<CR>
 inoremap <leader>p <ESC>:CtrlP<CR>
@@ -204,6 +271,21 @@ nnoremap <leader>y :YRShow<CR>
 nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
 vnoremap <leader>Y :!pbcopy<CR>uk<CR>
 "noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+
+" System clipboard interaction.  Mostly from:
+" https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
+" noremap <leader>y "*y
+" noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
+" noremap <leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
+" vnoremap <leader>y "*ygv
+
+" Tabs
+nnoremap <leader>( :tabprev<cr>
+nnoremap <leader>) :tabnext<cr>
+
+" Clean trailing whitespace
+" TODO this or when save file
+"nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
 
 " Find merge conflict markers
 nmap <silent> <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
@@ -289,14 +371,14 @@ nnoremap <leader>. :call OpenTestAlternate()<cr>
 " rename file
 function! RenameFile()
   let old_name = expand('%')
-  let new_name = input('New file name: ', expand('%'), 'file')
+  let new_name = input('Rename file: ', expand('%'), 'file')
   if new_name != '' && new_name != old_name
     exec ':saveas ' . new_name
     exec ':silent !rm ' . old_name
     redraw!
   endif
 endfunction
-map <leader>n :call RenameFile()<cr>
+map <leader>r :call RenameFile()<cr>
 
 if has("autocmd")
   autocmd BufWritePost .vimrc source $MYVIMRC " apply .vimrc settings on save
