@@ -149,6 +149,9 @@ set wildignore+=*.orig                           " Merge resolution files
 " see chars tab and space(trail)
 set list listchars=tab:»·,trail:·
 
+" folding level start
+set foldlevelstart=0
+
 " Backups
 set backup                        " enable backups
 set noswapfile                    " disable swapfiles
@@ -261,6 +264,15 @@ inoremap <leader>p <ESC>:CtrlP<CR>
 " call CtrlP list of buffer files
 nnoremap <leader>P :CtrlPBuffer<CR>
 
+let g:ctrlp_dont_split = 'NERD_tree_2'
+let g:ctrlp_jump_to_buffer = 0
+let g:ctrlp_map = '<leader>,'
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_match_window_reversed = 1
+let g:ctrlp_split_window = 0
+let g:ctrlp_max_height = 20
+let g:ctrlp_extensions = ['tag']
+
 " switch to last used buffer
 nnoremap <leader>l :e#<CR>
 
@@ -283,6 +295,11 @@ vnoremap <leader>Y :!pbcopy<CR>uk<CR>
 nnoremap <leader>( :tabprev<cr>
 nnoremap <leader>) :tabnext<cr>
 
+" Easier to type, and I never use the default behavior.
+noremap H ^
+noremap L $
+vnoremap L g_
+
 " Clean trailing whitespace
 " TODO this or when save file
 "nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
@@ -301,6 +318,13 @@ nmap <silent> <leader>b :TagbarToggle<CR>
 
 " mapping for function above
 map <leader>bw :call Wipeout()<CR>
+
+" Toggle "keep current line in the center of the screen" mode
+nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
+
+nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
 
 " NerdTree
 map <leader>nt :NERDTreeToggle<CR>
@@ -333,6 +357,34 @@ map! <Esc>OF <End>
 
 " use sudo to write the file
 cmap w!! w !sudo tee % >/dev/null
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" Refocus folds
+nnoremap ,z zMzvzz
+
+" Make zO recursively open whatever top level fold we're in, no matter where the
+" cursor happens to be.
+nnoremap zO zCzO
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
 
 " Clear the search buffer when hitting return
 "function! MapCR()
