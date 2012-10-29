@@ -9,19 +9,39 @@
 call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 set nocompatible
+" enable syntax highlighting
+syntax on
 
 " }}}
 " Basic options --------------------------------------------------------------------- {{{
 
 " set colorscheme
 color molokai
+set encoding=utf-8
+set laststatus=2
+" intuitive backspacing
+set backspace=indent,eol,start
+set list
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set showbreak=↪
+set nolinebreak
+set norelativenumber
+set number
+set nowrap
+"set colorcolumn=120
+set cursorcolumn
+set cursorline
+" enable to out file without save (on buffer)
+set hidden
+set mouse=a
 
 " }}}
 
 
+" Toggle paste
+" TODO to define other key
+set pastetoggle=<C-g>
 
-" enable syntax highlighting
-syntax on
 
 " For ruby, autoindent with two spaces, always expand tabs
 autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
@@ -34,59 +54,8 @@ autocmd FileType php,python set sw=4 sts=4 et
 autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000 guibg=#FF0000
 autocmd BufEnter * match OverLength /\%121v.*/
 
-" set encoding with utf-8
-set encoding=utf-8
-
-" show status line, to Powerline Style
-set laststatus=2
-
-" intuitive backspacing
-set backspace=indent,eol,start
-
-" use the same symbols as TextMate for tabstops and EOLs
-set list
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-
-" show the break lines
-set showbreak=↪
-
 "?????????
 set fillchars=diff:⣿,vert:│
-
-" Toggle paste
-" TODO to define other key
-set pastetoggle=<C-g>
-
-" disable relative line numbers
-set norelativenumber
-
-" show numbers of line
-set number
-
-" don't break wrapped lines on words
-set linebreak
-
-" set no word rap line
-" TODO when split vert wrap line, but without split dont wrap line but colorize background
-set nowrap
-
-" highlight N columns (cc)
-"set colorcolumn=120
-
-" show highlight columns on cursor
-set cursorcolumn
-
-" Don't try to highlight lines longer than 1000 characters.
-set synmaxcol=1000
-
-" show highlight line on cursor
-set cursorline
-
-" enable to out file without save (on buffer)
-set hidden
-
-" enable mouse on Vim
-set mouse=a
 
 " EOL format
 set fileformats=unix,mac,dos
