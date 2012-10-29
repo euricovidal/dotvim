@@ -29,9 +29,10 @@ autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 
 " For python autoindent with four spaces
 autocmd FileType php,python set sw=4 sts=4 et
 
-" Highlight characters longer than 120 characters
-autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
-autocmd BufEnter * match OverLength /\%120v.*/
+" Highlight characters longer than 121 characters
+"autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
+autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000 guibg=#FF0000
+autocmd BufEnter * match OverLength /\%121v.*/
 
 " set encoding with utf-8
 set encoding=utf-8
@@ -281,7 +282,7 @@ nnoremap <leader>y :YRShow<CR>
 " System clipboard interaction
 nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
 vnoremap <leader>Y :!pbcopy<CR>uk<CR>
-noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+"noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
 
 " System clipboard interaction.  Mostly from:
 " https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
