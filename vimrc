@@ -15,8 +15,8 @@ syntax on
 " }}}
 " Basic options --------------------------------------------------------------------- {{{
 
-" set colorscheme
 color molokai
+set t_Co=256
 set encoding=utf-8
 set laststatus=2
 " intuitive backspacing
@@ -25,7 +25,6 @@ set list
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set showbreak=↪
 set nolinebreak
-set norelativenumber
 set number
 set nowrap
 "set colorcolumn=120
@@ -34,131 +33,31 @@ set cursorline
 " enable to out file without save (on buffer)
 set hidden
 set mouse=a
-
-" }}}
-
-
-" Toggle paste
-" TODO to define other key
-set pastetoggle=<C-g>
-
-
-" For ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
-
-" For python autoindent with four spaces
-autocmd FileType php,python set sw=4 sts=4 et
-
-" Highlight characters longer than 121 characters
-"autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
-autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000 guibg=#FF0000
-autocmd BufEnter * match OverLength /\%121v.*/
-
-"?????????
-set fillchars=diff:⣿,vert:│
-
-" EOL format
-set fileformats=unix,mac,dos
-
-" highlight matches as you type
-set incsearch
-
-" highlight matches
-set hlsearch
-
-" show 3 lines of context around the cursor
-set scrolloff=1
-
-" ignore case while searching except if there's an uppercase letter
-set ignorecase smartcase
-
-" an autoindent (with <<) is two spaces
-set shiftwidth=2
-" use spaces, not tabs
-set expandtab
-" a tab is two spaces
-set softtabstop=2
-" automatic alignment during insertions
-set autoindent
-" should be the same value of shiftwidth
-set smartindent
-
-" break line when has 90 characters
-set textwidth=90
-
-" keep 100 cmdline history
-set history=100
-
 " set title window (file name and path)
 set title
-
-" display incomplete commands below statusline
+set shell=/bin/bash\ --login
+set lazyredraw
+set pastetoggle=[p
+set history=100
 set showcmd
-
-" enable 256 colors in terminal
-set t_Co=256
-
-" show matching bracket when text indicator is over them
-set showmatch
-
-" disable swap of file
-set noswapfile
-
-" no blinking
 set novisualbell
-
-" no noise
 set noerrorbells
-
-" enhanced command line completion
-set wildmenu
-" complete files like a shell
-set wildmode=longest:list,full
-" wildmenu ignore extensions
-set wildignore+=.hg,.git,.svn                    " Version control
-set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
-set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
-set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
-set wildignore+=*.spl                            " compiled spelling word lists
-set wildignore+=*.sw?                            " Vim swap files
-set wildignore+=*.DS_Store                       " OSX bullshit
-set wildignore+=*.pyc                            " Python byte code
-set wildignore+=*.orig                           " Merge resolution files
-
-" folding level start
-set foldlevelstart=0
-
-" Backups
-set backup                        " enable backups
-set noswapfile                    " disable swapfiles
-set undofile                      " enable undo
-
-set undodir=~/.vim/tmp/undo//     " undo files
-set backupdir=~/.vim/tmp/backup// " backups
-set directory=~/.vim/tmp/swap//   " swap files
-
-" Make those folders automatically if they don't already exist.
-if !isdirectory(expand(&undodir))
-    call mkdir(expand(&undodir), 'p')
-endif
-if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), 'p')
-endif
-if !isdirectory(expand(&directory))
-    call mkdir(expand(&directory), 'p')
-endif
-
-" change leader key
-let mapleader=","
-
-" Aliasing the new leader ',' to the default one '\'
-nmap \ ,
+set norelativenumber
 
 " don't need to press the shift key :
 nnoremap ; :
 
 " Resize splits when the window is resized
 au VimResized * :wincmd =
+
+" Relative Number (line) {{{
+
+" Toggle keep current line in the center of the screen mode
+"set relativenumber
+"nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
+
+" }}}
+" Line Return {{{
 
 " Make sure Vim returns to the same line when you reopen a file
 augroup line_return
@@ -169,13 +68,113 @@ augroup line_return
         \ endif
 augroup END
 
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+" }}}
+" Backups {{{
 
-" Useful status information at bottom of screen
-" "set statusline=[%n]\ %<%.99f\ %h%w%m%r%y\ %{fugitive#statusline()}\
-" %{exists('g:loaded_rvm')?rvm#statusline():''}\ %=%-16(\ %l,%c-%v\ %)%P
-" "statusline setup
+set backup
+set undofile
+set noswapfile
+
+set backupdir=~/.vim/tmp/backup//
+set undodir=~/.vim/tmp/undo//
+set directory=~/.vim/tmp/swap//
+
+if !isdirectory(expand(&undodir))
+    call mkdir(expand(&undodir), 'p')
+endif
+if !isdirectory(expand(&backupdir))
+    call mkdir(expand(&backupdir), 'p')
+endif
+if !isdirectory(expand(&directory))
+    call mkdir(expand(&directory), 'p')
+endif
+
+" }}}
+" Folding {{{
+
+set foldlevelstart=0
+
+nnoremap <Space> za
+vnoremap <Space> za
+
+" Refocus folds
+nnoremap ,z zMzvzz
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+" Leader {{{
+
+let mapleader=','
+let maplocalleader='\'
+
+" }}}
+" Highlight word {{{
+
+highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
+highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
+highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
+highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
+
+nnoremap <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+
+" }}}
+" Tabs, spaces, wrapping {{{
+
+set expandtab
+set softtabstop=2
+set autoindent
+set smartindent
+set shiftwidth=2
+
+" }}}
+" Ruby {{{
+
+augroup ft_ruby
+  au!
+  au Filetype ruby setlocal foldmethod=syntax
+augroup END
+
+" }}}
+" Vagrant {{{
+
+augroup ft_vagrant
+  au!
+  au BufRead,BufNewFile Vagrantfile set ft=ruby
+augroup END
+
+" }}}
+" Vim {{{
+
+augroup ft_vim
+  au!
+
+  au FileType vim setlocal foldmethod=marker
+  au FileType help setlocal textwidth=78
+  au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
+" }}}
+" Status line (not used) {{{
+
 " set statusline=%f                                               " tail of the filename
 " set statusline+=\ [%{strlen(&fenc)?&fenc:'none'},               " file encoding
 " set statusline+=\ %{&ff}]                                       " file format
@@ -191,6 +190,160 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 " set statusline+=%c,                                             " cursor column
 " set statusline+=%l/%L                                           " cursor line/total lines
 " set statusline+=\ %P                                            " percent through file
+
+" }}}
+" }}}
+" Wildmenu completion --------------------------------------------------------------- {{{
+
+set wildmenu
+set wildmode=longest:list,full
+
+" wildmenu ignore extensions
+set wildignore+=.hg,.git,.svn                    " Version control
+set wildignore+=*.aux,*.out,*.toc                " LaTeX intermediate files
+set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg   " binary images
+set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest " compiled object files
+set wildignore+=*.spl                            " compiled spelling word lists
+set wildignore+=*.sw?                            " Vim swap files
+set wildignore+=*.DS_Store                       " OSX bullshit
+set wildignore+=*.pyc                            " Python byte code
+set wildignore+=*.orig                           " Merge resolution files
+
+" }}}
+" Searching and movement ------------------------------------------------------------ {{{
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
+
+set incsearch
+set hlsearch
+set showmatch
+set ignorecase smartcase
+
+set scrolloff=1
+set sidescroll=1
+set sidescrolloff=10
+
+noremap <leader>/ :nohl<cr>:call clearmatches()<cr>
+
+noremap H ^
+noremap L $
+vnoremap L g_
+
+" }}}
+
+
+" For ruby, autoindent with two spaces, always expand tabs
+autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+
+" For python autoindent with four spaces
+autocmd FileType php,python set sw=4 sts=4 et
+
+" Highlight characters longer than 121 characters
+"autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
+autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000 guibg=#FF0000
+autocmd BufEnter * match OverLength /\%121v.*/
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" EOL format
+set fileformats=unix,mac,dos
+
+
+" break line when has 90 characters
+set textwidth=90
+
+
+
+
+
+
+" Convenience mappings -------------------------------------------------------------- {{{
+
+" use sudo to write the file
+cmap w!! w !sudo tee % >/dev/null
+
+" Toggle line numbers and list
+nnoremap <leader>n :set nonumber nolist<cr>
+nnoremap <leader>N :set number list<cr>
+
+nnoremap <leader>y :YRShow<CR>
+
+map <leader>b :TagbarToggle<CR>
+map <leader>nt :NERDTreeToggle<CR>
+
+" Find merge conflict markers
+nmap <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+
+" JSON Format
+map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
+" XML Format
+map <leader>xt <Esc>:1,$!xmllint --format -<CR>
+
+" Tab Windows {{{
+
+nnoremap <C-w>k :tabnew %<CR>
+nnoremap <C-w>l :tabprevious<CR>
+nnoremap <C-w>h :tabnext<CR>
+
+" }}}
+" Buffer Files {{{
+
+" switch to last used buffer
+nmap <leader>l :e#<CR>
+" clear all files of buffer
+nmap <leader>bw :call Wipeout()<CR>
+" keep window on buffer delete
+nmap <leader>bd <Plug>Kwbd
+
+" }}}
+" cTags {{{
+
+" autocomplete for all methods (by ctags)
+inoremap <leader><TAB> <C-X><C-]>
+
+" re-ctags all methods and gems
+map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><CR>
+
+" }}}
+" CtrlP {{{
+
+inoremap <leader>p <ESC>:CtrlP<CR>
+let g:ctrlp_map = '<leader>p'
+let g:ctrlp_max_height = 10
+
+" }}}
+" TMUX fixes {{{
+
+map <Esc>OH <Home>
+map! <Esc>OH <Home>
+map <Esc>OF <End>
+map! <Esc>OF <End>
+
+" }}}
+
+
+
+" System clipboard interaction
+nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
+vnoremap <leader>Y :!pbcopy<CR>uk<CR>
+"noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
+
+" System clipboard interaction.  Mostly from:
+" https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
+" noremap <leader>y "*y
+" noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
+" noremap <leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
+" vnoremap <leader>y "*ygv
+
+" Clean trailing whitespace
+" TODO this or when save file
+"nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
+
+
+" }}}
 
 " set Powerline mode
 let g:Powerline_symbols = 'fancy'
@@ -224,142 +377,8 @@ let g:Powerline_mode_i  = 'I'
 let g:Powerline_mode_R  = 'R'
 let g:Powerline_mode_n  = 'N'
 
-" Use sane regexes.
-nnoremap / /\v
-vnoremap / /\v
 
-" autocomplete for all methods (by ctags)
-inoremap <leader><TAB> <C-X><C-]>
 
-" re-ctags all methods and gems
-map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><CR>
-
-" Toggle line numbers
-nnoremap <leader>n :setlocal number!<cr>
-
-" call CtrlP list of all files on insert mode
-inoremap <leader>p <ESC>:CtrlP<CR>
-let g:ctrlp_map = '<leader>p'
-let g:ctrlp_max_height = 10
-
-" switch to last used buffer
-nnoremap <leader>l :e#<CR>
-
-" YankRing mapping
-nnoremap <leader>y :YRShow<CR>
-
-" System clipboard interaction
-nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
-vnoremap <leader>Y :!pbcopy<CR>uk<CR>
-"noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
-
-" System clipboard interaction.  Mostly from:
-" https://github.com/henrik/dotfiles/blob/master/vim/config/mappings.vim
-" noremap <leader>y "*y
-" noremap <leader>p :set paste<CR>"*p<CR>:set nopaste<CR>
-" noremap <leader>P :set paste<CR>"*P<CR>:set nopaste<CR>
-" vnoremap <leader>y "*ygv
-
-" Tabs
-nnoremap <leader>( :tabprev<cr>
-nnoremap <leader>) :tabnext<cr>
-
-" Easier to type, and I never use the default behavior.
-noremap H ^
-noremap L $
-vnoremap L g_
-
-" Clean trailing whitespace
-" TODO this or when save file
-"nnoremap <leader>w mz:%s/\s\+$//<cr>:let @/=''<cr>`z
-
-" Find merge conflict markers
-nmap <silent> <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
-
-" keep window on buffer delete
-nmap <silent> <leader>bd <Plug>Kwbd
-
-" use tagbar
-nmap <silent> <leader>b :TagbarToggle<CR>
-
-" mapping for function above
-map <leader>bw :call Wipeout()<CR>
-
-" Toggle keep current line in the center of the screen mode
-nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
-
-nnoremap <silent> <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h1 :execute 'match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
-nnoremap <silent> <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
-
-" clears the highlight
-noremap <silent> <leader>/ :nohl<cr>:call clearmatches()<cr>
-
-highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
-highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
-highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
-highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
-
-" NerdTree
-map <leader>nt :NERDTreeToggle<CR>
-
-" JSON Format
-map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
-
-" XML Format
-map <leader>xt <Esc>:1,$!xmllint --format -<CR>
-
-" Tab next
-nnoremap <C-w>k :tabnew %<CR>
-nnoremap <C-w>l :tabprevious<CR>
-nnoremap <C-w>h :tabnext<CR>
-
-" Remove file
-"nnoremap <C-D> :!rm %<CR>
-
-" switch to last used buffer
-nnoremap <leader>l :e#<CR>
-
-" TagList of functions
-map <leader>t :TlistToggle<CR>
-
-" tmux fixes
-map <Esc>OH <Home>
-map! <Esc>OH <Home>
-map <Esc>OF <End>
-map! <Esc>OF <End>
-
-" use sudo to write the file
-cmap w!! w !sudo tee % >/dev/null
-
-" Space to toggle folds.
-nnoremap <Space> za
-vnoremap <Space> za
-
-" Refocus folds
-nnoremap ,z zMzvzz
-
-" Make zO recursively open whatever top level fold we're in, no matter where the
-" cursor happens to be.
-nnoremap zO zCzO
-
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
 
 " Clear the search buffer when hitting return
 "function! MapCR()
