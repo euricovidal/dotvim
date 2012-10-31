@@ -271,6 +271,12 @@ set textwidth=90
 " use sudo to write the file
 cmap w!! w !sudo tee % >/dev/null
 
+" to go on line with wrap
+noremap j gj
+noremap k gk
+noremap gj j
+noremap gk k
+
 " Toggle line numbers and list
 nnoremap <leader>n :set nonumber nolist<cr>
 nnoremap <leader>N :set number list<cr>
