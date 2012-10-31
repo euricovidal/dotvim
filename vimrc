@@ -272,22 +272,24 @@ set textwidth=90
 cmap w!! w !sudo tee % >/dev/null
 
 " to go on line with wrap
-noremap j gj
-noremap k gk
-noremap gj j
-noremap gk k
+map j gj
+map k gk
+
+map <leader>Rf :RunSpec<CR>
+map <leader>Rl :RunSpecLine<CR>
+map <leader>Ra :RunSpecs<CR>
 
 " Toggle line numbers and list
-nnoremap <leader>n :set nonumber nolist<cr>
-nnoremap <leader>N :set number list<cr>
+map <leader>n :set nonumber nolist<cr>
+map <leader>N :set number list<cr>
 
-nnoremap <leader>y :YRShow<CR>
+map <leader>y :YRShow<CR>
 
 map <leader>b :TagbarToggle<CR>
 map <leader>nt :NERDTreeToggle<CR>
 
 " Find merge conflict markers
-nmap <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
 " JSON Format
 map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
