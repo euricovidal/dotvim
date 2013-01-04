@@ -175,7 +175,6 @@ augroup ft_vim
   au!
 
   au FileType vim setlocal foldmethod=marker
-  au FileType help setlocal textwidth=78
   au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 
@@ -257,15 +256,6 @@ match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " EOL format
 set fileformats=unix,mac,dos
-
-
-" break line when has 90 characters
-set textwidth=90
-
-
-
-
-
 
 " Convenience mappings -------------------------------------------------------------- {{{
 
