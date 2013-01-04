@@ -82,3 +82,6 @@
 [submodule "bundle/vim-rake"]
 	path = bundle/vim-rake
 	url = https://github.com/tpope/vim-rake.git
+[submodule "bundle/ruby-matchit"]
+	path = bundle/ruby-matchit
+	url = https://github.com/frimik/ruby-matchit.git
