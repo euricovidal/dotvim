@@ -35,7 +35,7 @@ set hidden
 set mouse=a
 " set title window (file name and path)
 set title
-set shell=/bin/bash\ --login
+set shell=/bin/bash
 set lazyredraw
 set pastetoggle=[p
 set history=100
@@ -71,7 +71,7 @@ augroup END
 " }}}
 " Backups {{{
 
-set backup
+set nobackup
 set undofile
 set noswapfile
 
@@ -79,11 +79,11 @@ set backupdir=~/.vim/tmp/backup//
 set undodir=~/.vim/tmp/undo//
 set directory=~/.vim/tmp/swap//
 
+"if !isdirectory(expand(&backupdir))
+    "call mkdir(expand(&backupdir), 'p')
+"endif
 if !isdirectory(expand(&undodir))
     call mkdir(expand(&undodir), 'p')
-endif
-if !isdirectory(expand(&backupdir))
-    call mkdir(expand(&backupdir), 'p')
 endif
 if !isdirectory(expand(&directory))
     call mkdir(expand(&directory), 'p')
@@ -148,16 +148,16 @@ set shiftwidth=2
 " }}}
 " Ruby {{{
 
-augroup ft_ruby
-  au!
-  "au Filetype ruby setlocal foldmethod=syntax
-  autocmd FileType ruby set omnifunc=rubycomplete#Complete
-  " ... and Rails
-  autocmd FileType ruby let g:rubycomplete_rails = 1
-  " ... and to include Classes in global completions
-  autocmd FileType ruby let g:rubycomplete_classes_in_global = 1
-  " Thorfile, Rakefile and Gemfile are Ruby
-augroup END
+"augroup ft_ruby
+  "au!
+  ""au Filetype ruby setlocal foldmethod=syntax
+  "autocmd FileType ruby set omnifunc=rubycomplete#Complete
+  "" ... and Rails
+  "autocmd FileType ruby let g:rubycomplete_rails = 1
+  "" ... and to include Classes in global completions
+  "autocmd FileType ruby let g:rubycomplete_classes_in_global = 1
+  "" Thorfile, Rakefile and Gemfile are Ruby
+"augroup END
 
 " }}}
 " Vagrant {{{
@@ -428,7 +428,7 @@ function! AlternateForCurrentFile()
 endfunction
 nnoremap <leader>. :call OpenTestAlternate()<cr>
 
-" rename file
+" rename file {{{
 function! RenameFile()
   let old_name = expand('%')
   let new_name = input('Rename file: ', expand('%'), 'file')
@@ -439,7 +439,8 @@ function! RenameFile()
   endif
 endfunction
 map <leader>r :call RenameFile()<cr>
-
+" }}}
+" function to remove trailing white space (while saving cursor position) {{{
 if has("autocmd")
   autocmd BufWritePost .vimrc source $MYVIMRC " apply .vimrc settings on save
   autocmd BufWritePre * :call <SID>StripTrailingWhitespaces() " remove trailing white spaces before saving (only in specified filetypes)
@@ -458,8 +459,8 @@ function! <SID>StripTrailingWhitespaces()
   let @/=_s
   call cursor(l, c)
 endfunction
-
-" function to delete all hidden buffers
+" }}}
+" function to delete all hidden buffers {{{
 function! Wipeout()
   " list of *all* buffer numbers
   let l:buffers = range(1, bufnr('$'))
@@ -492,3 +493,4 @@ function! Wipeout()
     execute 'tabnext' l:currentTab
   endtry
 endfunction
+" }}}
