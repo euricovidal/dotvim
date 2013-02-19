@@ -332,6 +332,7 @@ map! <Esc>OF <End>
 
 
 " System clipboard interaction
+"set clipboard=unnamed
 nnoremap <leader>Y :.!pbcopy<CR>uk<CR>
 vnoremap <leader>Y :!pbcopy<CR>uk<CR>
 "noremap <leader>P :set paste<CR>:r !pbpaste<CR>:set nopaste<CR>
