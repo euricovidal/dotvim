@@ -88,3 +88,6 @@
 [submodule "bundle/slim-template"]
 	path = bundle/slim-template
 	url = https://github.com/slim-template/vim-slim.git
+[submodule "bundle/vim-gitgutter"]
+	path = bundle/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter.git
