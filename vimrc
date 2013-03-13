@@ -246,6 +246,9 @@ autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 
 " For python autoindent with four spaces
 autocmd FileType php,python set sw=4 sts=4 et
 
+" for GitGutter and Warnings
+highlight clear SignColumn
+
 " Highlight characters longer than 121 characters
 "autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
 autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000 guibg=#FF0000
@@ -265,6 +268,10 @@ cmap w!! w !sudo tee % >/dev/null
 " to go on line with wrap
 map j gj
 map k gk
+
+" For Ruby with PRY
+map <leader>pry orequire 'pry'; binding.pry<ESC>:w<CR>
+imap <leader>pry <CR>require 'pry'; binding.pry<ESC>:w<CR>
 
 map <leader>Rf :RunSpec<CR>
 map <leader>Rl :RunSpecLine<CR>
@@ -382,6 +389,8 @@ let g:Powerline_mode_cs = 'S⋅BLOCK'
 let g:Powerline_mode_i  = 'I'
 let g:Powerline_mode_R  = 'R'
 let g:Powerline_mode_n  = 'N'
+
+
 
 
 
