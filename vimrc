@@ -317,7 +317,8 @@ nmap <leader>bd <Plug>Kwbd
 inoremap <leader><TAB> <C-X><C-]>
 
 " re-ctags all methods and gems
-map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R * `rvm gemdir`/gems/*<CR><CR>
+map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log -R *<CR>
+"`rvm gemdir`/gems/*<CR><CR>
 
 " }}}
 " CtrlP {{{
