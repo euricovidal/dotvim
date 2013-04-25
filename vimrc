@@ -273,6 +273,10 @@ map k gk
 map <leader>pry orequire 'pry'; binding.pry<ESC>:w<CR>
 imap <leader>pry <CR>require 'pry'; binding.pry<ESC>:w<CR>
 
+" For Ruby with Debugger
+map <leader>d orequire 'debugger'; debugger<ESC>:w<CR>
+imap <leader>d <CR>require 'debugger'; debugger<ESC>:w<CR>
+
 map <leader>Rf :RunSpec<CR>
 map <leader>Rl :RunSpecLine<CR>
 map <leader>Ra :RunSpecs<CR>
