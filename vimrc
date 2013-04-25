@@ -270,8 +270,8 @@ map j gj
 map k gk
 
 " For Ruby with PRY
-map <leader>d orequire 'pry'; binding.pry<ESC>:w<CR>
-imap <leader>d <CR>require 'pry'; binding.pry<ESC>:w<CR>
+map <leader>pry orequire 'pry'; binding.pry<ESC>:w<CR>
+imap <leader>pry <CR>require 'pry'; binding.pry<ESC>:w<CR>
 
 map <leader>Rf :RunSpec<CR>
 map <leader>Rl :RunSpecLine<CR>
