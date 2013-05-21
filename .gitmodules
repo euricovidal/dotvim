@@ -7,9 +7,6 @@
 [submodule "bundle/bufexplorer"]
 	path = bundle/bufexplorer
 	url = https://github.com/vim-scripts/bufexplorer.zip.git
-[submodule "bundle/syntastic"]
-	path = bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/vim-coffee-script"]
 	path = bundle/vim-coffee-script
 	url = https://github.com/brianegan/vim-coffee-script.git
@@ -94,3 +91,6 @@
 [submodule "bundle/rabl"]
 	path = bundle/rabl
 	url = https://github.com/yaymukund/vim-rabl.git
+[submodule "bundle/vim-slim"]
+	path = bundle/vim-slim
+	url = git@github.com:euricovidal/vim-slim.git
