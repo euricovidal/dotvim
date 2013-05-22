@@ -278,8 +278,8 @@ map <leader>rpry orequire 'pry-remote'; binding.remote_pry<ESC>:w<CR>
 imap <leader>rpry <CR>require 'pry-remote'; binding.remote_pry<ESC>:w<CR>
 
 " For Ruby with Debugger
-map <leader>d orequire 'debugger'; debugger<ESC>:w<CR>
-imap <leader>d <CR>require 'debugger'; debugger<ESC>:w<CR>
+map <leader>deb orequire 'debugger'; debugger<ESC>:w<CR>
+imap <leader>deb <CR>require 'debugger'; debugger<ESC>:w<CR>
 
 map <leader>Rf :RunSpec<CR>
 map <leader>Rl :RunSpecLine<CR>

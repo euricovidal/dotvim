@@ -94,3 +94,6 @@
 [submodule "bundle/vim-slim"]
 	path = bundle/vim-slim
 	url = git@github.com:euricovidal/vim-slim.git
+[submodule "bundle/syntastic"]
+	path = bundle/syntastic
+	url = git://github.com/scrooloose/syntastic.git
