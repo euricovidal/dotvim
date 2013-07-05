@@ -5,7 +5,6 @@
 " This file has changes a lot, I will try to document it
 
 " Preample -------------------------------------------------------------------------- {{{
-
 call pathogen#runtime_append_all_bundles()
 filetype plugin indent on
 set nocompatible
