@@ -240,7 +240,7 @@ vnoremap L g_
 
 
 " For ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,html,javascript,sass,cucumber set ai sw=2 sts=2 et
+autocmd FileType ruby,haml,eruby,yaml,javascript,sass,cucumber set ai sw=2 sts=2 et
 
 " For python autoindent with four spaces
 autocmd FileType php,python set sw=4 sts=4 et
@@ -366,10 +366,6 @@ vnoremap <leader>Y :!pbcopy<CR>uk<CR>
 
 " }}}
 
-" set Powerline mode
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_cache_enabled = 1
-
 " auto focus on errors/warnings
 let g:syntastic_auto_jump=0
 " symbol when have errors
@@ -386,6 +382,10 @@ let g:bufExplorerShowRelativePath=1
 
 " yankring path to history
 let g:yankring_history_dir='~/.vim/tmp/'
+
+" set Powerline mode
+let g:Powerline_symbols = 'fancy'
+let g:Powerline_cache_enabled = 1
 
 " set name of modes of show (Visual, Normal, Replace, Insert, Select)
 let g:Powerline_mode_v  = 'V'
@@ -503,3 +503,6 @@ function! Wipeout()
   endtry
 endfunction
 " }}}
+
+
+autocmd BufNewFile,BufRead *.shtm set ft=html
