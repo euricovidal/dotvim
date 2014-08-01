@@ -240,7 +240,7 @@ vnoremap L g_
 
 
 " For ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,javascript,sass,cucumber set ai sw=2 sts=2 et
+autocmd FileType ruby,haml,eruby,yaml,json,javascript,sass,cucumber set ai sw=2 sts=2 et
 
 " For python autoindent with four spaces
 autocmd FileType php,python set sw=4 sts=4 et
