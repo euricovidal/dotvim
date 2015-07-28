@@ -14,13 +14,23 @@ syntax on
 " }}}
 " Basic options --------------------------------------------------------------------- {{{
 
+" AirLine config
+let g:airline_powerline_fonts = 1
+let g:airline_theme='powerlineish'
+let g:airline#extensions#tabline#enabled = 1
+
+set guifont=Meslo\ LG\ M\ for\ Powerline:h16
+
 color molokai
 set t_Co=256
 set encoding=utf-8
+set term=xterm-256color
+set termencoding=utf-8
 set laststatus=2
 " intuitive backspacing
 set backspace=indent,eol,start
 set list
+set fillchars+=stl:\ ,stlnc:\
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set showbreak=↪
 set nolinebreak
@@ -49,13 +59,6 @@ nnoremap ; :
 " Resize splits when the window is resized
 au VimResized * :wincmd =
 
-" Relative Number (line) {{{
-
-" Toggle keep current line in the center of the screen mode
-"set relativenumber
-"nnoremap <leader>C :let &scrolloff=999-&scrolloff<cr>
-
-" }}}
 " Line Return {{{
 
 " Make sure Vim returns to the same line when you reopen a file
@@ -144,11 +147,16 @@ set autoindent
 set smartindent
 set shiftwidth=2
 
+nmap <leader>tn :tabnew<CR>
+nmap <leader>tl :tabnext<CR>
+nmap <leader>th :tabprevious<CR>
+
 " }}}
 " Ruby {{{
 
 autocmd FileType ruby,eruby set omnifunc=rubycomplete#Complete
-"autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
+autocmd FileType ruby,eruby setl omnifunc=syntaxcompelete#Complete
+autocmd FileType ruby,eruby let g:rubycomplete_buffer_loading = 1
 autocmd FileType ruby,eruby let g:rubycomplete_rails = 1
 autocmd FileType ruby,eruby let g:rubycomplete_classes_in_global = 1
 "improve autocomplete menu color
@@ -189,8 +197,8 @@ augroup END
 " set statusline+=\ %{fugitive#statusline()}                      " Git
 " set statusline+=\ %{exists('g:loaded_rvm')?rvm#statusline():''} " RVM
 " set statusline+=%=                                              " left/right separator
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
+ "set statusline+=%#warningmsg#
+ "set statusline+=%{SyntasticStatuslineFlag()}
 " set statusline+=%*
 " set statusline+=%c,                                             " cursor column
 " set statusline+=%l/%L                                           " cursor line/total lines
@@ -245,13 +253,16 @@ autocmd FileType ruby,haml,eruby,yaml,json,javascript,sass,cucumber set ai sw=2 
 " For python autoindent with four spaces
 autocmd FileType php,python set sw=4 sts=4 et
 
+autocmd BufNewFile,BufRead *.shtm set ft=html
+
 " for GitGutter and Warnings
 highlight clear SignColumn
 
 " Highlight characters longer than 121 characters
 "autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
-autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000 guibg=#FF0000
-autocmd BufEnter * match OverLength /\%121v.*/
+"autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000
+autocmd BufEnter * highlight OverLength ctermbg=red guibg=#AA3333
+autocmd BufEnter * match OverLength /\%81v.*/
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
@@ -279,6 +290,10 @@ imap <leader>rpry <CR>require 'pry-remote'; binding.remote_pry<ESC>:w<CR>
 " For Ruby with Debugger
 map <leader>deb orequire 'debugger'; debugger<ESC>:w<CR>
 imap <leader>deb <CR>require 'debugger'; debugger<ESC>:w<CR>
+
+" For Ruby with ByeBug
+map <leader>bye obyebug<ESC>:w<CR>
+imap <leader>bye <CR>byebug<ESC>:w<CR>
 
 map <leader>Rf :RunSpec<CR>
 map <leader>Rl :RunSpecLine<CR>
@@ -316,6 +331,9 @@ nmap <leader>l :e#<CR>
 nmap <leader>bw :call Wipeout()<CR>
 " keep window on buffer delete
 nmap <leader>bd <Plug>Kwbd
+
+nmap <C-left> :bprevious<CR>
+nmap <C-right> :bnext<CR>
 
 " }}}
 " cTags {{{
@@ -366,11 +384,22 @@ vnoremap <leader>Y :!pbcopy<CR>uk<CR>
 
 " }}}
 
+" syntastic
+let g:syntastic_enable_highlighting = 1
+let g:syntastic_enable_signs = 1
+let g:syntastic_enable_balloons = 1
+let g:syntastic_ruby_checkers = ['rubocop', 'mri']
+" show the error list automatically
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_wq = 0
 " auto focus on errors/warnings
 let g:syntastic_auto_jump=0
 " symbol when have errors
+let g:syntastic_style_error_symbol='✗'
 let g:syntastic_error_symbol='✗'
 " symbol when have warnings
+let g:syntastic_style_warning_symbol='⚠'
 let g:syntastic_warning_symbol='⚠'
 " check syntax when its open
 let g:syntastic_check_on_open=1
@@ -383,25 +412,23 @@ let g:bufExplorerShowRelativePath=1
 " yankring path to history
 let g:yankring_history_dir='~/.vim/tmp/'
 
+" PowerLine ------------------------------------------------------------------------- {{{
 " set Powerline mode
-let g:Powerline_symbols = 'fancy'
-let g:Powerline_cache_enabled = 1
+"let g:Powerline_symbols = 'fancy'
+"let g:Powerline_cache_enabled = 1
 
 " set name of modes of show (Visual, Normal, Replace, Insert, Select)
-let g:Powerline_mode_v  = 'V'
-let g:Powerline_mode_V  = 'V⋅LINE'
-let g:Powerline_mode_cv = 'V⋅BLOCK'
-let g:Powerline_mode_s  = 'S'
-let g:Powerline_mode_S  = 'S⋅LINE'
-let g:Powerline_mode_cs = 'S⋅BLOCK'
-let g:Powerline_mode_i  = 'I'
-let g:Powerline_mode_R  = 'R'
-let g:Powerline_mode_n  = 'N'
+"let g:Powerline_mode_v  = 'V'
+"let g:Powerline_mode_V  = 'V⋅LINE'
+"let g:Powerline_mode_cv = 'V⋅BLOCK'
+"let g:Powerline_mode_s  = 'S'
+"let g:Powerline_mode_S  = 'S⋅LINE'
+"let g:Powerline_mode_cs = 'S⋅BLOCK'
+"let g:Powerline_mode_i  = 'I'
+"let g:Powerline_mode_R  = 'R'
+"let g:Powerline_mode_n  = 'N'
 
-
-
-
-
+"}}}
 
 " Clear the search buffer when hitting return
 "function! MapCR()
@@ -503,6 +530,3 @@ function! Wipeout()
   endtry
 endfunction
 " }}}
-
-
-autocmd BufNewFile,BufRead *.shtm set ft=html

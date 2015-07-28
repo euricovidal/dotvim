@@ -31,15 +31,6 @@
 [submodule "bundle/vim-ruby-refactoring"]
 	path = bundle/vim-ruby-refactoring
 	url = https://github.com/ecomba/vim-ruby-refactoring.git
-[submodule "bundle/vim-snipmate"]
-	path = bundle/vim-snipmate
-	url = git://github.com/garbas/vim-snipmate.git
-[submodule "bundle/tlib"]
-	path = bundle/tlib
-	url = https://github.com/tomtom/tlib_vim.git
-[submodule "bundle/vim-addon-mw-utils"]
-	path = bundle/vim-addon-mw-utils
-	url = https://github.com/MarcWeber/vim-addon-mw-utils.git
 [submodule "bundle/tabular"]
 	path = bundle/tabular
 	url = https://github.com/godlygeek/tabular.git
@@ -63,10 +54,7 @@
 	url = https://github.com/ervandew/supertab.git
 [submodule "bundle/matchit"]
 	path = bundle/matchit
-	url = https://github.com/vim-scripts/matchit.zip.git
-[submodule "bundle/vim-rspec"]
-	path = bundle/vim-rspec
-	url = https://github.com/skwp/vim-rspec.git
+	url = https://github.com/tmhedberg/matchit.git
 [submodule "bundle/autocomplpop"]
 	path = bundle/autocomplpop
 	url = https://github.com/vim-scripts/AutoComplPop.git
@@ -87,13 +75,25 @@
 	url = https://github.com/yaymukund/vim-rabl.git
 [submodule "bundle/vim-slim"]
 	path = bundle/vim-slim
-	url = git@github.com:euricovidal/vim-slim.git
+	url = https://github.com/slim-template/vim-slim.git
 [submodule "bundle/syntastic"]
 	path = bundle/syntastic
-	url = git://github.com/scrooloose/syntastic.git
+	url = https://github.com/scrooloose/syntastic.git
 [submodule "bundle/dash"]
 	path = bundle/dash
 	url = https://github.com/rizzatti/dash.vim.git
 [submodule "bundle/vim-autocompletepopup"]
 	path = bundle/vim-autocompletepopup
 	url = https://github.com/estefanions/vim-autocompletepopup.git
+[submodule "bundle/YankRing"]
+	path = bundle/YankRing
+	url = https://github.com/vim-scripts/YankRing.vim.git
+[submodule "bundle/YouCompleteMe"]
+	path = bundle/YouCompleteMe
+	url = https://github.com/Valloric/YouCompleteMe.git
+[submodule "bundle/vim-rubocop"]
+	path = bundle/vim-rubocop
+	url = https://github.com/ngmy/vim-rubocop
+[submodule "bundle/floobits-vim"]
+	path = bundle/floobits-vim
+	url = https://github.com/Floobits/floobits-vim
