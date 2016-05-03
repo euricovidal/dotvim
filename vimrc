@@ -19,10 +19,11 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='powerlineish'
 let g:airline#extensions#tabline#enabled = 1
 
-set guifont=Meslo\ LG\ M\ for\ Powerline:h16
+set guifont=Menlo\ for\ Powerline:h16
 
 color molokai
 set t_Co=256
+scriptencoding utf-8
 set encoding=utf-8
 set term=xterm-256color
 set termencoding=utf-8
@@ -31,8 +32,10 @@ set laststatus=2
 set backspace=indent,eol,start
 set list
 set fillchars+=stl:\ ,stlnc:\
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-set showbreak=↪
+"set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+"set listchars=tab:\ue0b0\ ,eol:\u27a6,extends:\ue0b1,precedes:\ue0b3
+set listchars=tab:>\ ,eol:$,extends:>,precedes:<
+set showbreak=\ue27a6
 set nolinebreak
 set number
 set nowrap
@@ -50,7 +53,7 @@ set pastetoggle=[p
 set history=100
 set showcmd
 set novisualbell
-set noerrorbells
+set noerrorbells visualbell t_vb=
 set norelativenumber
 
 " don't need to press the shift key :
@@ -280,16 +283,16 @@ map j gj
 map k gk
 
 " For Ruby with PRY
-map <leader>pry orequire 'pry'; binding.pry<ESC>:w<CR>
-imap <leader>pry <CR>require 'pry'; binding.pry<ESC>:w<CR>
+map <leader>pry obinding.pry<ESC>:w<CR>
+imap <leader>pry <CR>binding.pry<ESC>:w<CR>
 
 " For Ruby with PRY-REMOTE
-map <leader>rpry orequire 'pry-remote'; binding.remote_pry<ESC>:w<CR>
-imap <leader>rpry <CR>require 'pry-remote'; binding.remote_pry<ESC>:w<CR>
+map <leader>rpry obinding.remote_pry<ESC>:w<CR>
+imap <leader>rpry <CR>binding.remote_pry<ESC>:w<CR>
 
 " For Ruby with Debugger
-map <leader>deb orequire 'debugger'; debugger<ESC>:w<CR>
-imap <leader>deb <CR>require 'debugger'; debugger<ESC>:w<CR>
+map <leader>deb odebugger<ESC>:w<CR>
+imap <leader>deb <CR>debugger<ESC>:w<CR>
 
 " For Ruby with ByeBug
 map <leader>bye obyebug<ESC>:w<CR>
@@ -385,9 +388,6 @@ vnoremap <leader>Y :!pbcopy<CR>uk<CR>
 " }}}
 
 " syntastic
-let g:syntastic_enable_highlighting = 1
-let g:syntastic_enable_signs = 1
-let g:syntastic_enable_balloons = 1
 let g:syntastic_ruby_checkers = ['rubocop', 'mri']
 " show the error list automatically
 let g:syntastic_always_populate_loc_list = 1
@@ -396,8 +396,8 @@ let g:syntastic_check_on_wq = 0
 " auto focus on errors/warnings
 let g:syntastic_auto_jump=0
 " symbol when have errors
-let g:syntastic_style_error_symbol='✗'
-let g:syntastic_error_symbol='✗'
+let g:syntastic_style_error_symbol='❌' " ✗'
+let g:syntastic_error_symbol='❌' "✗'
 " symbol when have warnings
 let g:syntastic_style_warning_symbol='⚠'
 let g:syntastic_warning_symbol='⚠'
