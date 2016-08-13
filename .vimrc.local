@@ -1,0 +1,204 @@
+" Base {{{
+set mouse=a
+set cursorcolumn
+set cursorline
+
+" Tabs. May be overriten by autocmd rules
+set tabstop=2
+set shiftwidth=2
+
+" don't need to press the shift key :
+nnoremap ; :
+
+map <leader>y :YRShow<CR>
+
+" Find merge conflict markers
+map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+
+" JSON Format
+map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
+" XML Format
+map <leader>xt <Esc>:1,$!xmllint --format -<CR>
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+if has("gui_running")
+  if has("gui_mac") || has("gui_macvim")
+    set guifont=Knack\ Regular\ Nerd\ Font\ Complete\ Mono:h16
+  endif
+endif
+" }}}
+" Backups {{{
+
+" Directories for swp files
+set undofile
+" set backupdir=~/.vim/tmp/backup//
+set undodir=~/.vim/tmp/undo//
+" set directory=~/.vim/tmp/swap//
+
+" if !isdirectory(expand(&backupdir))
+" 	call mkdir(expand(&backupdir), 'p')
+" endif
+if !isdirectory(expand(&undodir))
+	call mkdir(expand(&undodir), 'p')
+endif
+" if !isdirectory(expand(&directory))
+" 	call mkdir(expand(&directory), 'p')
+" endif
+
+" }}}
+" Functions {{{
+if !exists('*s:setupWrapping')
+  function s:setupWrapping()
+    set nowrap
+  endfunction
+endif
+" }}}
+" Mappings {{{
+" Clean search (highlight)
+nnoremap <silent> <leader>/ :noh<cr>
+
+"" Tabs
+noremap <C>h gt
+noremap <C>l gT
+
+" Buffer nav
+noremap <C-Left> :bprevious<CR>
+noremap <C-Right> :bnext<CR>
+" switch to last used buffer
+noremap <leader>l :e#<CR>
+
+"" Move visual block
+vnoremap <C-Down> :m '>+1<CR>gv=gv
+vnoremap <C-Up> :m '<-2<CR>gv=gv
+" }}}
+" Custom configs {{{
+augroup vimrc-javascript
+  autocmd!
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
+augroup END
+
+augroup vimrc-ruby
+  autocmd!
+  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
+augroup END
+" }}}
+" Convenience variables {{{
+let g:syntastic_ruby_checkers = ['rubocop', 'mri']
+let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+let g:airline_powerline_fonts = 1
+
+" vim-airline
+let g:airline#extensions#branch#enabled = 0
+
+"" NERDTree configuration
+let g:NERDTreeShowBookmarks = 0
+let g:NERDTreeWinSize = 30
+
+"" ctrlp.vim
+let g:ctrlp_map = '<leader>p'
+
+" syntastic
+" let g:syntastic_error_symbol='✗'
+" let g:syntastic_warning_symbol='⚠'
+" let g:syntastic_style_error_symbol = '✗'
+" let g:syntastic_style_warning_symbol = '⚠'
+let g:syntastic_always_populate_loc_list=0
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_jump = 0
+" }}}
+" Folding {{{
+
+set foldlevelstart=3
+
+nnoremap <Space> za
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+" Highlight word {{{
+
+highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
+highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
+highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
+highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
+
+nnoremap <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h1 :execute '1match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+
+" }}}
+" NEOCOMPLETE {{{
+" Plugin key-mappings.
+" imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
+
+" Enable snipMate compatibility feature.
+let g:neosnippet#enable_snipmate_compatibility = 1
+
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#CompleteRuby
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" }}}
+" Vim {{{
+" Resize splits when the window is resized
+" au VimResized * :wincmd =
+
+augroup ft_vim
+  au!
+  au FileType vim setlocal foldmethod=marker
+  au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
+augroup END
+
+" }}}
+" cTags {{{
+
+" autocomplete for all methods (by ctags)
+" inoremap <leader><TAB> <C-X><C-]>
+
+" re-ctags all methods and gems
+map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=node_modules --exclude=db --exclude=tmp -R *<CR>
+"`rvm gemdir`/gems/*<CR><CR>
+
+" }}}

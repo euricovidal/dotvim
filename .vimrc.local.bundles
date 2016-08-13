@@ -1,0 +1,19 @@
+" Plug install packages {{{
+Plug 'YankRing.vim'
+Plug 'lilydjwg/colorizer'
+Plug 'shougo/neosnippet-snippets'
+Plug 'shougo/neosnippet.vim'
+Plug 'shougo/neocomplete.vim'
+Plug 'ngmy/vim-rubocop'
+Plug 'godlygeek/tabular'
+Plug 'gagoar/stripwhitespaces'
+" Plug 'mxw/vim-jsx'
+" Plug 'jaxbot/syntastic-react'
+" " Plug 'kabbamine/vcoolor.vim' retirado por causa de fazer um map em ã
+Plug 'tmhedberg/matchit'
+" Plug 'ryanoasis/vim-devicons'
+Plug 'gregsexton/gitv'
+Plug 'cohama/agit.vim'
+Plug 'konfekt/fastfold'
+Plug 'chrisbra/csv.vim'
+" }}}

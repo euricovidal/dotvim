@@ -1,6 +1,5 @@
 "*****************************************************************************
 "" Vim-PLug core
-"" By http://vim-bootstrap.com/
 "*****************************************************************************
 if has('vim_starting')
   set nocompatible               " Be iMproved
@@ -8,7 +7,7 @@ endif
 
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
 
-let g:vim_bootstrap_langs = "javascript,ruby,php,html"
+let g:vim_bootstrap_langs = "javascript,ruby,html"
 let g:vim_bootstrap_editor = "vim"				" nvim or vim
 
 if !filereadable(vimplug_exists)
@@ -46,41 +45,19 @@ Plug 'scrooloose/syntastic'
 Plug 'Yggdroot/indentLine'
 Plug 'avelino/vim-bootstrap-updater'
 
-Plug 'YankRing.vim'
-Plug 'lilydjwg/colorizer'
-Plug 'shougo/neosnippet-snippets'
-Plug 'shougo/neosnippet.vim'
-Plug 'shougo/neocomplete.vim'
-Plug 'ngmy/vim-rubocop'
-Plug 'godlygeek/tabular'
-Plug 'gagoar/stripwhitespaces'
-Plug 'mxw/vim-jsx'
-Plug 'jaxbot/syntastic-react'
-Plug 'kabbamine/vcoolor.vim'
-Plug 'tmhedberg/matchit'
-Plug 'ryanoasis/vim-devicons'
-Plug 'gregsexton/gitv'
-Plug 'cohama/agit.vim'
-let g:syntastic_ruby_checkers = ['rubocop', 'mri']
-let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
-let g:syntastic_javascript_checkers = ['eslint']
-let g:syntastic_javascript_eslint_exec = 'eslint_d'
-let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-let g:airline_powerline_fonts = 1
-
 let g:make = 'gmake'
 if system('uname -o') =~ '^GNU/'
-        let g:make = 'make'
+	let g:make = 'make'
 endif
-" Plug 'Shougo/vimproc.vim', {'do': g:make}
+Plug 'Shougo/vimproc.vim', {'do': g:make}
 
 "" Vim-Session
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-session'
 
-if v:version >= 703
-  Plug 'Shougo/vimshell.vim'
-endif
+" if v:version >= 703
+"   Plug 'Shougo/vimshell.vim'
+" endif
 
 if v:version >= 704
   "" Snippets
@@ -97,7 +74,6 @@ Plug 'tomasr/molokai'
 "" Javascript Bundle
 Plug 'jelera/vim-javascript-syntax'
 
-Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'
 Plug 'tpope/vim-rake'
 Plug 'tpope/vim-projectionist'
@@ -111,12 +87,9 @@ Plug 'gorodinskiy/vim-coloresque'
 Plug 'tpope/vim-haml'
 Plug 'mattn/emmet-vim'
 
-"" PHP Bundle
-Plug 'arnaud-lb/vim-php-namespace'
-
 "" Include user's extra bundle
-if filereadable(expand("~/.vimrc.local.bundles"))
-  source ~/.vimrc.local.bundles
+if filereadable(expand("~/.vim/.vimrc.local.bundles"))
+  source ~/.vim/.vimrc.local.bundles
 endif
 
 call plug#end()
@@ -162,17 +135,16 @@ set ttyfast
 "" Directories for swp files
 set nobackup
 set noswapfile
-set undofile
 
 set fileformats=unix,dos,mac
 set showcmd
 set shell=/bin/sh
 
 " session management
-let g:session_directory = "~/.vim/session"
-let g:session_autoload = "no"
-let g:session_autosave = "no"
-let g:session_command_aliases = 1
+" let g:session_directory = "~/.vim/session"
+" let g:session_autoload = "no"
+" let g:session_autosave = "no"
+" let g:session_command_aliases = 1
 
 "*****************************************************************************
 "" Visual Settings
@@ -187,15 +159,13 @@ if !exists('g:not_finish_vimplug')
 endif
 
 set mousemodel=popup
-set mouse=a
 set t_Co=256
 set guioptions=egmrti
 set gfn=Monospace\ 10
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
-    " set guifont=Menlo:h12
-	set guifont=Knack\ Regular\ Nerd\ Font\ Complete\ Mono:h16
+    set guifont=Menlo:h12
     set transparency=7
   endif
 else
@@ -245,8 +215,6 @@ endif
 
 " vim-airline
 let g:airline_theme = 'powerlineish'
-" let g:airline_theme = 'bubblegum'
-" let g:airline_theme = 'murmur'
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#enabled = 1
@@ -256,16 +224,16 @@ let g:airline#extensions#tagbar#enabled = 1
 "" Abbreviations
 "*****************************************************************************
 "" no one is really happy until you have this shortcuts
-cnoreabbrev W! w!
-cnoreabbrev Q! q!
-cnoreabbrev Qall! qall!
-cnoreabbrev Wq wq
-cnoreabbrev Wa wa
-cnoreabbrev wQ wq
-cnoreabbrev WQ wq
-cnoreabbrev W w
-cnoreabbrev Q q
-cnoreabbrev Qall qall
+" cnoreabbrev W! w!
+" cnoreabbrev Q! q!
+" cnoreabbrev Qall! qall!
+" cnoreabbrev Wq wq
+" cnoreabbrev Wa wa
+" cnoreabbrev wQ wq
+" cnoreabbrev WQ wq
+" cnoreabbrev W w
+" cnoreabbrev Q q
+" cnoreabbrev Qall qall
 
 "" NERDTree configuration
 let g:NERDTreeChDirMode=2
@@ -286,15 +254,15 @@ let Grep_Skip_Files = '*.log *.db'
 let Grep_Skip_Dirs = '.git node_modules'
 
 " vimshell.vim
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-let g:vimshell_prompt =  '$ '
+" let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+" let g:vimshell_prompt =  '$ '
 
 " terminal emulation
-if g:vim_bootstrap_editor == 'nvim'
-  nnoremap <silent> <leader>sh :terminal<CR>
-else
-  nnoremap <silent> <leader>sh :VimShellCreate<CR>
-endif
+" if g:vim_bootstrap_editor == 'nvim'
+"   nnoremap <silent> <leader>sh :terminal<CR>
+" else
+"   nnoremap <silent> <leader>sh :VimShellCreate<CR>
+" endif
 
 "*****************************************************************************
 "" Functions
@@ -335,50 +303,44 @@ augroup vimrc-make-cmake
   autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
 augroup END
 
-" For ruby, autoindent with two spaces, always expand tabs
-autocmd FileType ruby,haml,eruby,yaml,json,javascript,sass,cucumber set ai sw=2 sts=2 et
-
-" For python autoindent with four spaces
-autocmd FileType php,python set sw=4 sts=4 et
-
 set autoread
 
 "*****************************************************************************
 "" Mappings
 "*****************************************************************************
 "" Split
-noremap <Leader>h :<C-u>split<CR>
-noremap <Leader>v :<C-u>vsplit<CR>
+" noremap <Leader>h :<C-u>split<CR>
+" noremap <Leader>v :<C-u>vsplit<CR>
 
 "" Git
-noremap <Leader>ga :Gwrite<CR>
-noremap <Leader>gc :Gcommit<CR>
-noremap <Leader>gsh :Gpush<CR>
-noremap <Leader>gll :Gpull<CR>
-noremap <Leader>gs :Gstatus<CR>
-noremap <Leader>gb :Gblame<CR>
-noremap <Leader>gd :Gvdiff<CR>
-noremap <Leader>gr :Gremove<CR>
+" noremap <Leader>ga :Gwrite<CR>
+" noremap <Leader>gc :Gcommit<CR>
+" noremap <Leader>gsh :Gpush<CR>
+" noremap <Leader>gll :Gpull<CR>
+" noremap <Leader>gs :Gstatus<CR>
+" noremap <Leader>gb :Gblame<CR>
+" noremap <Leader>gd :Gvdiff<CR>
+" noremap <Leader>gr :Gremove<CR>
 
 " session management
-nnoremap <leader>so :OpenSession<Space>
-nnoremap <leader>ss :SaveSession<Space>
-nnoremap <leader>sd :DeleteSession<CR>
-nnoremap <leader>sc :CloseSession<CR>
+" nnoremap <leader>so :OpenSession<Space>
+" nnoremap <leader>ss :SaveSession<Space>
+" nnoremap <leader>sd :DeleteSession<CR>
+" nnoremap <leader>sc :CloseSession<CR>
 
 "" Tabs
-nnoremap <Tab> gt
-nnoremap <S-Tab> gT
-nnoremap <silent> <S-t> :tabnew<CR>
+" nnoremap <Tab> gt
+" nnoremap <S-Tab> gT
+" nnoremap <silent> <S-t> :tabnew<CR>
 
 "" Set working directory
-nnoremap <leader>. :lcd %:p:h<CR>
+" nnoremap <leader>. :lcd %:p:h<CR>
 
 "" Opens an edit command with the path of the currently edited file filled in
-noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+" noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 "" Opens a tab edit command with the path of the currently edited file filled
-noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
+" noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 "" ctrlp.vim
 set wildmode=list:longest,list:full
@@ -394,7 +356,7 @@ if executable('ag')
   let g:ctrlp_use_caching = 0
 endif
 
-cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+" cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 noremap <leader>b :CtrlPBuffer<CR>
 let g:ctrlp_map = '<leader>e'
 let g:ctrlp_open_new_file = 'r'
@@ -412,7 +374,7 @@ let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=0
+let g:syntastic_auto_loc_list=1
 let g:syntastic_aggregate_errors = 1
 
 " Tagbar
@@ -438,32 +400,30 @@ if has('macunix')
 endif
 
 "" Buffer nav
-noremap <leader>z :bp<CR>
-noremap <leader>q :bp<CR>
-noremap <leader>x :bn<CR>
-noremap <leader>w :bn<CR>
-" switch to last used buffer
-nmap <leader>l :e#<CR>
+" noremap <leader>z :bp<CR>
+" noremap <leader>q :bp<CR>
+" noremap <leader>x :bn<CR>
+" noremap <leader>w :bn<CR>
 
 "" Close buffer
 noremap <leader>c :bd<CR>
 
 "" Clean search (highlight)
-nnoremap <silent> <leader><space> :noh<cr>
+" nnoremap <silent> <leader><space> :noh<cr>
 
 "" Switching windows
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-noremap <C-h> <C-w>h
+" noremap <C-j> <C-w>j
+" noremap <C-k> <C-w>k
+" noremap <C-l> <C-w>l
+" noremap <C-h> <C-w>h
 
 "" Vmap for maintain Visual Mode after shifting > and <
 vmap < <gv
 vmap > >gv
 
 "" Move visual block
-vnoremap J :m '>+1<CR>gv=gv
-vnoremap K :m '<-2<CR>gv=gv
+" vnoremap J :m '>+1<CR>gv=gv
+" vnoremap K :m '<-2<CR>gv=gv
 
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
@@ -475,7 +435,7 @@ let g:javascript_enable_domhtmlcss = 1
 " vim-javascript
 augroup vimrc-javascript
   autocmd!
-  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4 smartindent foldmethod=syntax
+  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4 smartindent
 augroup END
 
 
@@ -486,7 +446,7 @@ let g:rubycomplete_rails = 1
 augroup vimrc-ruby
   autocmd!
   autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
-  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
+  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent
 augroup END
 
 let g:tagbar_type_ruby = {
@@ -501,27 +461,26 @@ let g:tagbar_type_ruby = {
 \ }
 
 " RSpec.vim mappings
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
 
 " Ruby refactory
-nnoremap <leader>rap  :RAddParameter<cr>
-nnoremap <leader>rcpc :RConvertPostConditional<cr>
-nnoremap <leader>rel  :RExtractLet<cr>
-vnoremap <leader>rec  :RExtractConstant<cr>
-vnoremap <leader>relv :RExtractLocalVariable<cr>
-nnoremap <leader>rit  :RInlineTemp<cr>
-vnoremap <leader>rrlv :RRenameLocalVariable<cr>
-vnoremap <leader>rriv :RRenameInstanceVariable<cr>
-vnoremap <leader>rem  :RExtractMethod<cr>
-
+" nnoremap <leader>rap  :RAddParameter<cr>
+" nnoremap <leader>rcpc :RConvertPostConditional<cr>
+" nnoremap <leader>rel  :RExtractLet<cr>
+" vnoremap <leader>rec  :RExtractConstant<cr>
+" vnoremap <leader>relv :RExtractLocalVariable<cr>
+" nnoremap <leader>rit  :RInlineTemp<cr>
+" vnoremap <leader>rrlv :RRenameLocalVariable<cr>
+" vnoremap <leader>rriv :RRenameInstanceVariable<cr>
+" vnoremap <leader>rem  :RExtractMethod<cr>
 
 
 "" Include user's local vim config
-if filereadable(expand("~/.vimrc.local"))
-  source ~/.vimrc.local
+if filereadable(expand("~/.vim/.vimrc.local"))
+  source ~/.vim/.vimrc.local
 endif
 
 "*****************************************************************************
@@ -536,26 +495,20 @@ endif
 if !exists('g:airline_powerline_fonts')
   let g:airline#extensions#tabline#left_sep = ' '
   let g:airline#extensions#tabline#left_alt_sep = '|'
-  "let g:airline_left_sep          = '▶'
-  let g:airline_left_sep          = ''
+  let g:airline_left_sep          = '▶'
   let g:airline_left_alt_sep      = '»'
-  "let g:airline_right_sep         = '◀'
-  let g:airline_right_sep         = ''
+  let g:airline_right_sep         = '◀'
   let g:airline_right_alt_sep     = '«'
   let g:airline#extensions#branch#prefix     = '⤴' "➔, ➥, ⎇
   let g:airline#extensions#readonly#symbol   = '⊘'
   let g:airline#extensions#linecolumn#prefix = '¶'
   let g:airline#extensions#paste#symbol      = 'ρ'
-  " let g:airline_symbols.linenr    = '␊'
-  let g:airline_symbols.linenr = ''
-  " let g:airline_symbols.branch    = '⎇'
-  let g:airline_symbols.branch = ''
-  " let g:airline_symbols.paste     = 'ρ'
-  " let g:airline_symbols.paste     = 'Þ'
-  " let g:airline_symbols.paste     = '∥'
-  let g:airline_symbols.paste     = 'P'
+  let g:airline_symbols.linenr    = '␊'
+  let g:airline_symbols.branch    = '⎇'
+  let g:airline_symbols.paste     = 'ρ'
+  let g:airline_symbols.paste     = 'Þ'
+  let g:airline_symbols.paste     = '∥'
   let g:airline_symbols.whitespace = 'Ξ'
-  let g:airline_symbols.readonly = ''
 else
   let g:airline#extensions#tabline#left_sep = ''
   let g:airline#extensions#tabline#left_alt_sep = ''
@@ -570,137 +523,5 @@ else
   let g:airline_symbols.linenr = ''
 endif
 
-" don't need to press the shift key :
-nnoremap ; :
-
-noremap <leader>/ :nohl<cr>:call clearmatches()<cr>
-
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-set cursorcolumn
-set cursorline
-
-" enable to out file without save (on buffer)
-set hidden
-
-" Backups {{{
-set backupdir=~/.vim/tmp/backup//
-set undodir=~/.vim/tmp/undo//
-set directory=~/.vim/tmp/swap//
-
-if !isdirectory(expand(&backupdir))
-	call mkdir(expand(&backupdir), 'p')
-endif
-if !isdirectory(expand(&undodir))
-	call mkdir(expand(&undodir), 'p')
-endif
-if !isdirectory(expand(&directory))
-	call mkdir(expand(&directory), 'p')
-endif
-
-" }}}
-" Folding {{{
-
-set foldlevelstart=0
-
-nnoremap <Space> za
-vnoremap <Space> za
-
-map <leader>y :YRShow<CR>
-" map <leader>b :TagbarToggle<CR>
-
-" Find merge conflict markers
-map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
-
-" JSON Format
-map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
-" XML Format
-map <leader>xt <Esc>:1,$!xmllint --format -<CR>
-
-" Refocus folds
-nnoremap <leader>z zMzvzz
-
-function! MyFoldText() " {{{
-    let line = getline(v:foldstart)
-
-    let nucolwidth = &fdc + &number * &numberwidth
-    let windowwidth = winwidth(0) - nucolwidth - 3
-    let foldedlinecount = v:foldend - v:foldstart
-
-    " expand tabs into spaces
-    let onetab = strpart('          ', 0, &tabstop)
-    let line = substitute(line, '\t', onetab, 'g')
-
-    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
-endfunction " }}}
-set foldtext=MyFoldText()
-
-" }}}
-"Highlight word {{{
-
-highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
-highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
-highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
-highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
-
-nnoremap <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
-nnoremap <leader>h1 :execute '1match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-nnoremap <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
-nnoremap <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
-
-" }}}
-" NEOCOMPLETE {{{
-
-" Plugin key-mappings.
-imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-k>     <Plug>(neosnippet_expand_target)
-
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
-
-" Enable snipMate compatibility feature.
-let g:neosnippet#enable_snipmate_compatibility = 1
-
-" Tell Neosnippet about the other snippets
-let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-
-" }}}
-" Vim {{{
-" Resize splits when the window is resized
-au VimResized * :wincmd =
-
-augroup ft_vim
-  au!
-  au FileType vim setlocal foldmethod=marker
-  au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
-augroup END
-
-" }}}
-" cTags {{{
-
-" autocomplete for all methods (by ctags)
-inoremap <leader><TAB> <C-X><C-]>
-
-" re-ctags all methods and gems
-map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=node_modules --exclude=db --exclude=tmp -R *<CR>
-"`rvm gemdir`/gems/*<CR><CR>
-
-" }}}
+let g:airline_left_sep  = ''
+let g:airline_right_sep = ''
