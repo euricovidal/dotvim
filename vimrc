@@ -1,14 +1,15 @@
-"*****************************************************************************
-"" Vim-PLug core
-"*****************************************************************************
+" .vimrc
+" Author: Eurico Vidal <euricovidal@gmail.com>
+" Source: https://github.com/euricovidal/dotvim.git
+"
+" This file has changes a lot, I will try to document it
+"
+" Vim-PLug core {{{
 if has('vim_starting')
-  set nocompatible               " Be iMproved
+  set nocompatible " Be iMproved
 endif
 
 let vimplug_exists=expand('~/.vim/autoload/plug.vim')
-
-let g:vim_bootstrap_langs = "javascript,ruby,html"
-let g:vim_bootstrap_editor = "vim"				" nvim or vim
 
 if !filereadable(vimplug_exists)
   echo "Installing Vim-Plug..."
@@ -17,121 +18,92 @@ if !filereadable(vimplug_exists)
   let g:not_finish_vimplug = "yes"
 
   " Run shell script if exist on custom select language
-
   autocmd VimEnter * PlugInstall
 endif
 
 " Required:
 call plug#begin(expand('~/.vim/plugged'))
-
-"*****************************************************************************
-"" Plug install packages
-"*****************************************************************************
-Plug 'scrooloose/nerdtree'
-Plug 'jistr/vim-nerdtree-tabs'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'ctrlpvim/ctrlp.vim'
+" }}}
+" Plug packages {{{
+Plug 'scrooloose/nerdtree'            " files explorer
+Plug 'scrooloose/nerdcommenter'       " to comment line/block
+Plug 'tpope/vim-fugitive'             " git status, gblame, gdiff, gbrowse
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'sheerun/vim-polyglot'
-Plug 'vim-scripts/grep.vim'
-Plug 'vim-scripts/CSApprox'
-Plug 'bronson/vim-trailing-whitespace'
-Plug 'Raimondi/delimitMate'
-Plug 'majutsushi/tagbar'
-Plug 'scrooloose/syntastic'
-Plug 'Yggdroot/indentLine'
-Plug 'avelino/vim-bootstrap-updater'
-
-let g:make = 'gmake'
-if system('uname -o') =~ '^GNU/'
-	let g:make = 'make'
-endif
-Plug 'Shougo/vimproc.vim', {'do': g:make}
-
-"" Vim-Session
-" Plug 'xolox/vim-misc'
-" Plug 'xolox/vim-session'
-
-" if v:version >= 703
-"   Plug 'Shougo/vimshell.vim'
-" endif
-
-if v:version >= 704
-  "" Snippets
-  Plug 'SirVer/ultisnips'
-  Plug 'FelikZ/ctrlp-py-matcher'
-endif
-
-Plug 'honza/vim-snippets'
-
-"" Color
-Plug 'tomasr/molokai'
-
-"" Custom bundles
-"" Javascript Bundle
-Plug 'jelera/vim-javascript-syntax'
-
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-rake'
-Plug 'tpope/vim-projectionist'
-Plug 'thoughtbot/vim-rspec'
-Plug 'ecomba/vim-ruby-refactoring'
-
-"" HTML Bundle
+Plug 'airblade/vim-gitgutter'         " modified lines by git
+Plug 'sheerun/vim-polyglot'           " indent,completion many languages
+Plug 'Raimondi/delimitMate'           " auto open ([\" '
+Plug 'majutsushi/tagbar'              " list of classes/methods/vars on right sidebar
+Plug 'scrooloose/syntastic'           " syntax check
+Plug 'Yggdroot/indentLine'            " display indent lines by |
+Plug 'tomasr/molokai'                 " theme/color
+Plug 'mileszs/ack.vim'                " to find word with Ag
+Plug 'YankRing.vim'                   " history of copy
+Plug 'konfekt/fastfold'               " auto folds
+Plug 'sirver/ultisnips'               " complete snippets <TAB>
+Plug 'honza/vim-snippets'             " snippets (with ultisnips)
+Plug 'shougo/neosnippet-snippets'     " the snippets
+Plug 'shougo/neosnippet.vim'          " add snippets
+Plug 'shougo/neocomplete.vim'         " add auto complete
+Plug 'ngmy/vim-rubocop'               " rubocop ruby lint
+Plug 'godlygeek/tabular'              " to tabularize
+Plug 'gagoar/stripwhitespaces'        " remove useless spaces
+Plug 'mxw/vim-jsx'
+Plug 'isruslan/vim-es6'
+" Plug 'jaxbot/syntastic-react'
+Plug 'tmhedberg/matchit'              " allow % to ruby methods
+" Plug 'ryanoasis/vim-devicons'
+" Plug 'gregsexton/gitv'
+" Plug 'cohama/agit.vim'
+" Plug 'chrisbra/csv.vim'
+" }}}
+" Ruby {{{
+Plug 'tpope/vim-rails'             " improve to works with rails
+Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
+" }}}
+" HTML Bundle {{{
 Plug 'amirh/HTML-AutoCloseTag'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque'
-Plug 'tpope/vim-haml'
-Plug 'mattn/emmet-vim'
-
-"" Include user's extra bundle
-if filereadable(expand("~/.vim/.vimrc.local.bundles"))
-  source ~/.vim/.vimrc.local.bundles
-endif
-
+" Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
+Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
+" }}}
+" Basic Setup {{{
 call plug#end()
 
 " Required:
 filetype plugin indent on
 
+set mouse=a
+set cursorcolumn
+set cursorline
 
-"*****************************************************************************
-"" Basic Setup
-"*****************************************************************************"
 "" Encoding
 set encoding=utf-8
 set fileencoding=utf-8
 set fileencodings=utf-8
-
 "" Fix backspace indent
 set backspace=indent,eol,start
-
 "" Tabs. May be overriten by autocmd rules
-set tabstop=4
+set tabstop=2
 set softtabstop=0
-set shiftwidth=4
+set shiftwidth=2
 set expandtab
-
 "" Map leader to ,
 let mapleader=','
-
+" don't need to press the shift key :
+nnoremap ; :
 "" Enable hidden buffers
 set hidden
-
 "" Searching
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-
 "" Encoding
 set bomb
 set binary
 set ttyfast
-
 "" Directories for swp files
 set nobackup
 set noswapfile
@@ -139,24 +111,14 @@ set noswapfile
 set fileformats=unix,dos,mac
 set showcmd
 set shell=/bin/sh
-
-" session management
-" let g:session_directory = "~/.vim/session"
-" let g:session_autoload = "no"
-" let g:session_autosave = "no"
-" let g:session_command_aliases = 1
-
-"*****************************************************************************
-"" Visual Settings
-"*****************************************************************************
+" }}}
+" Visual Settings {{{
 syntax on
 set ruler
 set number
+set nowrap
 
-let no_buffers_menu=1
-if !exists('g:not_finish_vimplug')
-  colorscheme molokai
-endif
+colorscheme molokai
 
 set mousemodel=popup
 set t_Co=256
@@ -165,19 +127,11 @@ set gfn=Monospace\ 10
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Menlo:h12
+    "set guifont=Menlo:h12
+    set guifont=Knack\ Regular\ Nerd\ Font\ Complete\ Mono:h16
     set transparency=7
   endif
 else
-  let g:CSApprox_loaded = 1
-
-  " IndentLine
-  let g:indentLine_enabled = 1
-  let g:indentLine_concealcursor = 0
-  let g:indentLine_char = '┆'
-  let g:indentLine_faster = 1
-
-
   if $COLORTERM == 'gnome-terminal'
     set term=gnome-256color
   else
@@ -185,21 +139,20 @@ else
       set term=xterm-256color
     endif
   endif
-
 endif
 
 if &term =~ '256color'
   set t_ut=
 endif
 
-"" Disable the blinking cursor.
+" Disable the blinking cursor.
 set gcr=a:blinkon0
 set scrolloff=3
 
-"" Status bar
+" Status bar
 set laststatus=2
 
-"" Use modeline overrides
+" Use modeline overrides
 set modeline
 set modelines=10
 
@@ -212,61 +165,77 @@ set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)\
 if exists("*fugitive#statusline")
   set statusline+=%{fugitive#statusline()}
 endif
+" }}}
+" Configuration {{{
+" IndentLine
+let g:indentLine_enabled = 1
+let g:indentLine_concealcursor = 0
+let g:indentLine_char = '┆'
+let g:indentLine_faster = 1
 
 " vim-airline
 let g:airline_theme = 'powerlineish'
 let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#branch#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 
-"*****************************************************************************
-"" Abbreviations
-"*****************************************************************************
-"" no one is really happy until you have this shortcuts
-" cnoreabbrev W! w!
-" cnoreabbrev Q! q!
-" cnoreabbrev Qall! qall!
-" cnoreabbrev Wq wq
-" cnoreabbrev Wa wa
-" cnoreabbrev wQ wq
-" cnoreabbrev WQ wq
-" cnoreabbrev W w
-" cnoreabbrev Q q
-" cnoreabbrev Qall qall
-
-"" NERDTree configuration
-let g:NERDTreeChDirMode=2
+" NERDTree configuration
+" let g:NERDTreeChDirMode=2
 let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__']
 let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
-let g:NERDTreeShowBookmarks=1
-let g:nerdtree_tabs_focus_on_files=1
+let g:NERDTreeShowBookmarks=0
+" let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 50
+" let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
-nnoremap <silent> <F2> :NERDTreeFind<CR>
-noremap <F3> :NERDTreeToggle<CR>
+" nnoremap <silent> <F2> :NERDTreeFind<CR>
+noremap <leader>nt :NERDTreeToggle<CR>
 
-" grep.vim
-nnoremap <silent> <leader>f :Rgrep<CR>
-let Grep_Default_Options = '-IR'
-let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git node_modules'
+" Ack
+if executable('ag')
+	let g:ackprg = 'ag --vimgrep --smart-case'
+	cnoreabbrev Ag Ack
+endif
+" }}}
+" Backups {{{
+" Directories for swp files
+set undofile
+" set backupdir=~/.vim/tmp/backup//
+set undodir=~/.vim/tmp/undo//
+" set directory=~/.vim/tmp/swap//
 
-" vimshell.vim
-" let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-" let g:vimshell_prompt =  '$ '
-
-" terminal emulation
-" if g:vim_bootstrap_editor == 'nvim'
-"   nnoremap <silent> <leader>sh :terminal<CR>
-" else
-"   nnoremap <silent> <leader>sh :VimShellCreate<CR>
+" if !isdirectory(expand(&backupdir))
+" 	call mkdir(expand(&backupdir), 'p')
 " endif
+if !isdirectory(expand(&undodir))
+	call mkdir(expand(&undodir), 'p')
+endif
+" if !isdirectory(expand(&directory))
+" 	call mkdir(expand(&directory), 'p')
+" endif
+" }}}
+" Folding {{{
+set foldlevelstart=3
+nnoremap <Space> za
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
 
-"*****************************************************************************
-"" Functions
-"*****************************************************************************
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+" }}}
+" Functions {{{
 if !exists('*s:setupWrapping')
   function s:setupWrapping()
     set wrap
@@ -274,45 +243,96 @@ if !exists('*s:setupWrapping')
     set textwidth=79
   endfunction
 endif
+" }}}
+" Highlight word {{{
+highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
+highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
+highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
+highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
 
-"*****************************************************************************
-"" Autocmd Rules
-"*****************************************************************************
-"" The PC is fast enough, do syntax highlight syncing from start
+nnoremap <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h1 :execute '1match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+nnoremap <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+" }}}
+" Autocmd Rules {{{
+" The PC is fast enough, do syntax highlight syncing from start
 augroup vimrc-sync-fromstart
   autocmd!
   autocmd BufEnter * :syntax sync fromstart
 augroup END
 
-"" Remember cursor position
+" Remember cursor position
 augroup vimrc-remember-cursor-position
   autocmd!
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g`\"" | endif
 augroup END
 
-"" txt
-augroup vimrc-wrapping
+" vim-javascript
+augroup vimrc-javascript
   autocmd!
-  autocmd BufRead,BufNewFile *.txt call s:setupWrapping()
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
 augroup END
 
-"" make/cmake
-augroup vimrc-make-cmake
+augroup vimrc-ruby
   autocmd!
-  autocmd FileType make setlocal noexpandtab
-  autocmd BufNewFile,BufRead CMakeLists.txt setlocal filetype=cmake
+  autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
+  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
+augroup END
+
+" Resize splits when the window is resized
+" au VimResized * :wincmd =
+augroup ft_vim
+  au!
+  au FileType vim setlocal foldmethod=marker
+  au BufWinEnter *.txt if &ft == 'help' | wincmd L | endif
 augroup END
 
 set autoread
+" }}}
+" cTags {{{
+" autocomplete for all methods (by ctags)
+" inoremap <leader><TAB> <C-X><C-]>
 
-"*****************************************************************************
-"" Mappings
-"*****************************************************************************
-"" Split
+" re-ctags all methods and gems
+map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=node_modules --exclude=db --exclude=tmp -R *<CR>
+"`rvm gemdir`/gems/*<CR><CR>
+" }}}
+" Mappings {{{
+" YankRing
+map <leader>y :YRShow<CR>
+
+" Find merge conflict markers
+map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+
+" JSON Format
+map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
+
+" XML Format
+map <leader>xt <Esc>:1,$!xmllint --format -<CR>
+
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" Clean search (highlight)
+nnoremap <silent> <leader>/ :noh<cr>
+
+" Buffer nav
+noremap <C-Left> :bprevious<CR>
+noremap <C-Right> :bnext<CR>
+
+"" Move visual block
+vnoremap <C-Down> :m '>+1<CR>gv=gv
+vnoremap <C-Up> :m '<-2<CR>gv=gv
+
+" switch to last used buffer
+noremap <leader>l :e#<CR>
+
+" Split
 " noremap <Leader>h :<C-u>split<CR>
 " noremap <Leader>v :<C-u>vsplit<CR>
 
-"" Git
+" Git
 " noremap <Leader>ga :Gwrite<CR>
 " noremap <Leader>gc :Gcommit<CR>
 " noremap <Leader>gsh :Gpush<CR>
@@ -322,64 +342,71 @@ set autoread
 " noremap <Leader>gd :Gvdiff<CR>
 " noremap <Leader>gr :Gremove<CR>
 
-" session management
-" nnoremap <leader>so :OpenSession<Space>
-" nnoremap <leader>ss :SaveSession<Space>
-" nnoremap <leader>sd :DeleteSession<CR>
-" nnoremap <leader>sc :CloseSession<CR>
-
-"" Tabs
+" Tabs
 " nnoremap <Tab> gt
 " nnoremap <S-Tab> gT
 " nnoremap <silent> <S-t> :tabnew<CR>
 
-"" Set working directory
+" Set working directory
 " nnoremap <leader>. :lcd %:p:h<CR>
 
-"" Opens an edit command with the path of the currently edited file filled in
+" Opens an edit command with the path of the currently edited file filled in
 " noremap <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
-"" Opens a tab edit command with the path of the currently edited file filled
+" Opens a tab edit command with the path of the currently edited file filled
 " noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 "" ctrlp.vim
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
-let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
-let g:ctrlp_use_caching = 1
+" set wildmode=list:longest,list:full
+" set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
+" let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
+" let g:ctrlp_use_caching = 1
+"let g:ctrlp_map = '<leader>p'
 
 " The Silver Searcher
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
+" if executable('ag')
+"   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"   let g:ctrlp_use_caching = 0
+" endif
 
 " cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-noremap <leader>b :CtrlPBuffer<CR>
-let g:ctrlp_map = '<leader>e'
-let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+" noremap <leader>b :CtrlPBuffer<CR>
+" let g:ctrlp_map = '<leader>e'
+" let g:ctrlp_open_new_file = 'r'
+" let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
 " snippets
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsExpandTrigger="<tab>"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<c-b>"
+" let g:UltiSnipsEditSplit="vertical"
 
 " syntastic
-let g:syntastic_always_populate_loc_list=1
+let g:syntastic_always_populate_loc_list=0
 let g:syntastic_error_symbol='✗'
 let g:syntastic_warning_symbol='⚠'
 let g:syntastic_style_error_symbol = '✗'
 let g:syntastic_style_warning_symbol = '⚠'
-let g:syntastic_auto_loc_list=1
+let g:syntastic_auto_loc_list=0
+let g:syntastic_check_on_wq = 0
+let g:syntastic_auto_jump = 0
 let g:syntastic_aggregate_errors = 1
 
+let g:syntastic_ruby_checkers = ['mri', 'rubocop']
+let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
+let g:syntastic_javascript_checkers = ['eslint', 'jsxhint']
+let g:syntastic_javascript_eslint_exec = 'eslint_d'
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+let g:airline_powerline_fonts = 1
+
 " Tagbar
-nmap <silent> <F4> :TagbarToggle<CR>
+nmap <leader>tb :TagbarToggle<CR>
 let g:tagbar_autofocus = 1
+
+" Tabs
+noremap <C>h gt
+noremap <C>l gT
 
 " Disable visualbell
 set novisualbell t_vb=
@@ -406,7 +433,7 @@ endif
 " noremap <leader>w :bn<CR>
 
 "" Close buffer
-noremap <leader>c :bd<CR>
+" noremap <leader>c :bd<CR>
 
 "" Clean search (highlight)
 " nnoremap <silent> <leader><space> :noh<cr>
@@ -418,8 +445,8 @@ noremap <leader>c :bd<CR>
 " noremap <C-h> <C-w>h
 
 "" Vmap for maintain Visual Mode after shifting > and <
-vmap < <gv
-vmap > >gv
+" vmap < <gv
+" vmap > >gv
 
 "" Move visual block
 " vnoremap J :m '>+1<CR>gv=gv
@@ -428,26 +455,9 @@ vmap > >gv
 "" Open current line on GitHub
 nnoremap <Leader>o :.Gbrowse<CR>
 
-"" Custom configs
-
-let g:javascript_enable_domhtmlcss = 1
-
-" vim-javascript
-augroup vimrc-javascript
-  autocmd!
-  autocmd FileType javascript set tabstop=4|set shiftwidth=4|set expandtab softtabstop=4 smartindent
-augroup END
-
-
 let g:rubycomplete_buffer_loading = 1
 let g:rubycomplete_classes_in_global = 1
 let g:rubycomplete_rails = 1
-
-augroup vimrc-ruby
-  autocmd!
-  autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
-  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent
-augroup END
 
 let g:tagbar_type_ruby = {
     \ 'kinds' : [
@@ -476,16 +486,27 @@ let g:tagbar_type_ruby = {
 " vnoremap <leader>rrlv :RRenameLocalVariable<cr>
 " vnoremap <leader>rriv :RRenameInstanceVariable<cr>
 " vnoremap <leader>rem  :RExtractMethod<cr>
-
-
-"" Include user's local vim config
-if filereadable(expand("~/.vim/.vimrc.local"))
-  source ~/.vim/.vimrc.local
+" }}}
+" NEOComplete {{{
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
 endif
+let g:neocomplete#enable_at_startup = 1 " Use neocomplete
+let g:neocomplete#enable_smart_case = 1 " Use smartcase
+let g:neosnippet#enable_snipmate_compatibility = 1 " Enable snipMate compatibility feature.
+" Tell Neosnippet about the other snippets
+let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 
-"*****************************************************************************
-"" Convenience variables
-"*****************************************************************************
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#CompleteRuby
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" }}}
+" Convenience variables {{{
 
 " vim-airline
 if !exists('g:airline_symbols')
