@@ -26,55 +26,48 @@ call plug#begin(expand('~/.vim/plugged'))
 " }}}
 " Plug packages {{{
 Plug 'scrooloose/nerdtree'            " files explorer
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " color of files  on nerdtree
-Plug 'Xuyuanp/nerdtree-git-plugin'    " git status on nerdtree
-Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'       " to comment line/block
 Plug 'tpope/vim-fugitive'             " git status, gblame, gdiff, gbrowse
-"Plug 'ctrlpvim/ctrlp.vim'
-Plug 'jlanzarotta/bufexplorer'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'         " modified lines by git
-"Plug 'Raimondi/delimitMate'           " auto open ([\" '
-" Plug 'majutsushi/tagbar'              " list of classes/methods/vars on right sidebar
-Plug 'scrooloose/syntastic'           " syntax check
-"Plug 'Yggdroot/indentLine'            " display indent lines by |
-" up, esta zoando o estilo do .slim
+Plug 'sheerun/vim-polyglot'           " indent,completion many languages
+Plug 'Raimondi/delimitMate'           " auto open ([\" '
+Plug 'majutsushi/tagbar'              " list of classes/methods/vars on right sidebar
+Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
+"Plug 'scrooloose/syntastic'           " syntax check
+Plug 'Yggdroot/indentLine'            " display indent lines by |
 Plug 'tomasr/molokai'                 " theme/color
 Plug 'mileszs/ack.vim'                " to find word with Ag
 Plug 'YankRing.vim'                   " history of copy
-"Plug 'konfekt/fastfold'               " auto folds
-" Plug 'honza/vim-snippets'
-" Plug 'sirver/ultisnips'               " complete snippets <TAB>
-" Plug 'shougo/neocomplete.vim'         " add auto complete
-" Plug 'shougo/neosnippet.vim'          " add snippets
-" Plug 'shougo/neosnippet-snippets'     " the snippets
+Plug 'konfekt/fastfold'               " auto folds
+Plug 'sirver/ultisnips'               " complete snippets <TAB>
+Plug 'honza/vim-snippets'             " snippets (with ultisnips)
+Plug 'shougo/neosnippet-snippets'     " the snippets
+Plug 'shougo/neosnippet.vim'          " add snippets
+Plug 'shougo/neocomplete.vim'         " add auto complete
+Plug 'ngmy/vim-rubocop'               " rubocop ruby lint
 Plug 'godlygeek/tabular'              " to tabularize
 Plug 'gagoar/stripwhitespaces'        " remove useless spaces
+Plug 'mxw/vim-jsx'
+Plug 'isruslan/vim-es6'
+" Plug 'jaxbot/syntastic-react'
 Plug 'tmhedberg/matchit'              " allow % to ruby methods
+" Plug 'ryanoasis/vim-devicons'
 " Plug 'gregsexton/gitv'
 " Plug 'cohama/agit.vim'
 " Plug 'chrisbra/csv.vim'
 " }}}
 " Ruby {{{
-"Plug 'vim-ruby/vim-ruby'
-"Plug 'tpope/vim-rails'             " improve to works with rails
-"Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
+Plug 'tpope/vim-rails'             " improve to works with rails
+Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
 " }}}
 " HTML Bundle {{{
-"Plug 'amirh/HTML-AutoCloseTag'
-"Plug 'hail2u/vim-css3-syntax'
-"Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
-"Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
-Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
-"Plug 'cakebaker/scss-syntax.vim'
-"Plug 'hail2u/vim-css3-syntax'
-" }}}
-" JS {{{
-"Plug 'mxw/vim-jsx'
-"Plug 'isruslan/vim-es6'
-"Plug 'jaxbot/syntastic-react'
+Plug 'amirh/HTML-AutoCloseTag'
+" Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
+Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
 " }}}
 " Basic Setup {{{
 call plug#end()
@@ -93,12 +86,10 @@ set fileencodings=utf-8
 "" Fix backspace indent
 set backspace=indent,eol,start
 "" Tabs. May be overriten by autocmd rules
-set expandtab
-" set tabstop=2 " dont use this, breaks the space indent
-set softtabstop=0
+set tabstop=4
+set softtabstop=2
 set shiftwidth=2
-set smartindent
-set autoindent
+set expandtab
 "" Map leader to ,
 let mapleader=','
 " don't need to press the shift key :
@@ -112,7 +103,7 @@ set ignorecase
 set smartcase
 "" Encoding
 set bomb
-" set binary " this break the tabs
+set binary
 set ttyfast
 "" Directories for swp files
 set nobackup
@@ -137,8 +128,8 @@ set gfn=Monospace\ 10
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Knack\ Nerd\ Font:h15
-    "set guifont=Menlo:h16
+    set guifont=Menlo:h16
+    "set guifont=Knack\ Regular\ Nerd\ Font\ Complete\ Mono:h16
     set transparency=7
   endif
 else
@@ -197,40 +188,15 @@ let g:NERDTreeSortOrder=['^__\.py$', '\/$', '*', '\.swp$', '\.bak$', '\~$']
 let g:NERDTreeShowBookmarks=0
 " let g:nerdtree_tabs_focus_on_files=1
 let g:NERDTreeMapOpenInTabSilent = '<RightMouse>'
-let g:NERDTreeWinSize = 50
+" let g:NERDTreeWinSize = 50
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.db,*.sqlite
 " nnoremap <silent> <F2> :NERDTreeFind<CR>
 noremap <leader>nt :NERDTreeToggle<CR>
 
-" NERDCommenter
-let g:NERDSpaceDelims = 1
-let g:NERDDefaultAlign = 'left'
-
-" NerdFonts / DevIcons
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1         " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
-
-" NerdtreeGitPlugin
-let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
-
 " Ack
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep --smart-case'
-  cnoreabbrev Ag Ack
+	let g:ackprg = 'ag --vimgrep --smart-case'
+	cnoreabbrev Ag Ack
 endif
 " }}}
 " Backups {{{
@@ -244,7 +210,7 @@ set undodir=~/.vim/tmp/undo//
 " 	call mkdir(expand(&backupdir), 'p')
 " endif
 if !isdirectory(expand(&undodir))
-  call mkdir(expand(&undodir), 'p')
+	call mkdir(expand(&undodir), 'p')
 endif
 " if !isdirectory(expand(&directory))
 " 	call mkdir(expand(&directory), 'p')
@@ -254,19 +220,19 @@ endif
 set foldlevelstart=3
 nnoremap <Space> za
 function! MyFoldText() " {{{
-  let line = getline(v:foldstart)
+    let line = getline(v:foldstart)
 
-  let nucolwidth = &fdc + &number * &numberwidth
-  let windowwidth = winwidth(0) - nucolwidth - 3
-  let foldedlinecount = v:foldend - v:foldstart
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
 
-  " expand tabs into spaces
-  let onetab = strpart('          ', 0, &tabstop)
-  let line = substitute(line, '\t', onetab, 'g')
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
 
-  let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
-  let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
-  return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
 endfunction " }}}
 set foldtext=MyFoldText()
 " }}}
@@ -306,13 +272,13 @@ augroup END
 " vim-javascript
 augroup vimrc-javascript
   autocmd!
-  autocmd FileType javascript set foldmethod=syntax
+  autocmd FileType javascript set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
 augroup END
 
 augroup vimrc-ruby
   autocmd!
   autocmd BufNewFile,BufRead *.rb,*.rbw,*.gemspec setlocal filetype=ruby
-  autocmd FileType ruby set foldmethod=syntax
+  autocmd FileType ruby set tabstop=2|set shiftwidth=2|set expandtab softtabstop=2 smartindent foldmethod=syntax
 augroup END
 
 " Resize splits when the window is resized
@@ -340,17 +306,14 @@ map <leader>y :YRShow<CR>
 " Find merge conflict markers
 map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
-" Highlight VCS conflict markers
-match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
 " JSON Format
 map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
 
 " XML Format
 map <leader>xt <Esc>:1,$!xmllint --format -<CR>
 
-" CSV Format
-map <leader>vt <Esc>:Tabularize /;<CR>
+" Highlight VCS conflict markers
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " Clean search (highlight)
 nnoremap <silent> <leader>/ :noh<cr>
@@ -395,24 +358,24 @@ noremap <leader>l :e#<CR>
 " noremap <Leader>te :tabe <C-R>=expand("%:p:h") . "/" <CR>
 
 "" ctrlp.vim
-set wildmode=list:longest,list:full
-set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
-let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
-let g:ctrlp_use_caching = 1
-let g:ctrlp_map = '<leader>p'
+" set wildmode=list:longest,list:full
+" set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
+" let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|git|hg|svn))$'
+" let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
+" let g:ctrlp_use_caching = 1
+"let g:ctrlp_map = '<leader>p'
 
 " The Silver Searcher
-if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-  let g:ctrlp_use_caching = 0
-endif
+" if executable('ag')
+"   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+"   let g:ctrlp_use_caching = 0
+" endif
 
-cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-noremap <leader>b :CtrlPBuffer<CR>
-let g:ctrlp_map = '<leader>e'
-let g:ctrlp_open_new_file = 'r'
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+" cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
+" noremap <leader>b :CtrlPBuffer<CR>
+" let g:ctrlp_map = '<leader>e'
+" let g:ctrlp_open_new_file = 'r'
+" let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
 " snippets
 " let g:UltiSnipsExpandTrigger="<tab>"
@@ -432,7 +395,6 @@ let g:syntastic_auto_jump = 0
 let g:syntastic_aggregate_errors = 1
 
 let g:syntastic_ruby_checkers = ['mri', 'rubocop']
-let g:syntastic_ruby_rubocop_args = '--display-cop-names' " --display-style-guide --extra-details
 let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 let g:syntastic_javascript_checkers = ['eslint', 'jsxhint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
@@ -456,7 +418,7 @@ if has('unnamedplus')
 endif
 
 noremap YY "+y<CR>
-"noremap <leader>p "+gP<CR>
+noremap <leader>p "+gP<CR>
 noremap XX "+x<CR>
 
 if has('macunix')
@@ -538,14 +500,12 @@ let g:neosnippet#enable_snipmate_compatibility = 1 " Enable snipMate compatibili
 let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
 
 " Enable omni completion.
-au BufRead,BufNewFile *.scss set filetype=scss.css
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType ruby setlocal omnifunc=rubycomplete#CompleteRuby
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
 " }}}
 " Convenience variables {{{
 
@@ -571,6 +531,6 @@ if exists('g:airline_powerline_fonts')
   let g:airline_symbols.paste     = 'Þ'
   let g:airline_symbols.paste     = '∥'
   let g:airline_symbols.whitespace = 'Ξ'
-  let g:airline_left_sep  = ''
-  let g:airline_right_sep = ''
+	let g:airline_left_sep  = ''
+	let g:airline_right_sep = ''
 endif
