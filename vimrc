@@ -266,7 +266,7 @@ highlight clear SignColumn
 "autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
 "autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000
 autocmd BufEnter * highlight OverLength ctermbg=red guibg=#AA3333
-autocmd BufEnter * match OverLength /\%81v.*/
+autocmd BufEnter * match OverLength /\%121v.*/
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
