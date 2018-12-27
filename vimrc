@@ -53,6 +53,7 @@ Plug 'honza/vim-snippets'
 Plug 'godlygeek/tabular'              " to tabularize
 Plug 'gagoar/stripwhitespaces'        " remove useless spaces
 Plug 'tmhedberg/matchit'              " allow % to ruby methods
+Plug 'shougo/neocomplete.vim'
 " Plug 'gregsexton/gitv'
 " Plug 'cohama/agit.vim'
 " Plug 'chrisbra/csv.vim'
@@ -63,10 +64,10 @@ Plug 'vim-ruby/vim-ruby'
 Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
 " }}}
 " HTML Bundle {{{
-"Plug 'amirh/HTML-AutoCloseTag'
-"Plug 'hail2u/vim-css3-syntax'
-"Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
-"Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
+" Plug 'amirh/HTML-AutoCloseTag'
+Plug 'hail2u/vim-css3-syntax'
+Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
+Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
 Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
 "Plug 'cakebaker/scss-syntax.vim'
 "Plug 'hail2u/vim-css3-syntax'
