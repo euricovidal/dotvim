@@ -139,6 +139,8 @@ if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
     set guifont=Knack\ Nerd\ Font:h15
     "set guifont=Menlo:h16
+    "set guifont=Menlo\ for\ Powerline:h16
+    " set guifont=PowerlineSymbols:h16
     set transparency=7
   endif
 else
@@ -284,6 +286,11 @@ highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#0000
 highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
 highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
 highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
+
+"autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
+"autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000
+autocmd BufEnter * highlight OverLength ctermbg=red guibg=#AA3333
+autocmd BufEnter * match OverLength /\%121v.*/
 
 nnoremap <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
 nnoremap <leader>h1 :execute '1match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
