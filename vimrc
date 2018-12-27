@@ -31,25 +31,25 @@ Plug 'Xuyuanp/nerdtree-git-plugin'    " git status on nerdtree
 Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'       " to comment line/block
 Plug 'tpope/vim-fugitive'             " git status, gblame, gdiff, gbrowse
-"Plug 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'         " modified lines by git
-"Plug 'Raimondi/delimitMate'           " auto open ([\" '
-" Plug 'majutsushi/tagbar'              " list of classes/methods/vars on right sidebar
+Plug 'Raimondi/delimitMate'           " auto open ([\" '
+Plug 'majutsushi/tagbar'              " list of classes/methods/vars on right sidebar
 Plug 'scrooloose/syntastic'           " syntax check
 "Plug 'Yggdroot/indentLine'            " display indent lines by |
 " up, esta zoando o estilo do .slim
 Plug 'tomasr/molokai'                 " theme/color
 Plug 'mileszs/ack.vim'                " to find word with Ag
 Plug 'YankRing.vim'                   " history of copy
-"Plug 'konfekt/fastfold'               " auto folds
-" Plug 'honza/vim-snippets'
-" Plug 'sirver/ultisnips'               " complete snippets <TAB>
-" Plug 'shougo/neocomplete.vim'         " add auto complete
-" Plug 'shougo/neosnippet.vim'          " add snippets
-" Plug 'shougo/neosnippet-snippets'     " the snippets
+Plug 'konfekt/fastfold'               " auto folds
+Plug 'shougo/neocomplete.vim'         " add auto complete
+Plug 'shougo/neosnippet.vim'          " add snippets
+Plug 'shougo/neosnippet-snippets'     " the snippets
+Plug 'sirver/ultisnips'               " complete snippets <TAB>
+Plug 'honza/vim-snippets'
 Plug 'godlygeek/tabular'              " to tabularize
 Plug 'gagoar/stripwhitespaces'        " remove useless spaces
 Plug 'tmhedberg/matchit'              " allow % to ruby methods
@@ -58,9 +58,9 @@ Plug 'tmhedberg/matchit'              " allow % to ruby methods
 " Plug 'chrisbra/csv.vim'
 " }}}
 " Ruby {{{
-"Plug 'vim-ruby/vim-ruby'
-"Plug 'tpope/vim-rails'             " improve to works with rails
-"Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
+Plug 'vim-ruby/vim-ruby'
+" Plug 'tpope/vim-rails'             " improve to works with rails
+Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
 " }}}
 " HTML Bundle {{{
 "Plug 'amirh/HTML-AutoCloseTag'
@@ -418,7 +418,7 @@ let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 " let g:UltiSnipsExpandTrigger="<tab>"
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<c-b>"
-" let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsEditSplit="vertical"
 
 " syntastic
 let g:syntastic_always_populate_loc_list=0
@@ -536,6 +536,7 @@ let g:neocomplete#enable_smart_case = 1 " Use smartcase
 let g:neosnippet#enable_snipmate_compatibility = 1 " Enable snipMate compatibility feature.
 " Tell Neosnippet about the other snippets
 let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Enable omni completion.
 au BufRead,BufNewFile *.scss set filetype=scss.css
