@@ -54,6 +54,7 @@ Plug 'godlygeek/tabular'              " to tabularize
 Plug 'gagoar/stripwhitespaces'        " remove useless spaces
 Plug 'tmhedberg/matchit'              " allow % to ruby methods
 Plug 'shougo/neocomplete.vim'
+Plug 'terryma/vim-multiple-cursors'   " multiselect tipo sublime
 " Plug 'gregsexton/gitv'
 " Plug 'cohama/agit.vim'
 " Plug 'chrisbra/csv.vim'
