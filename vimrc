@@ -61,7 +61,7 @@ Plug 'terryma/vim-multiple-cursors'   " multiselect tipo sublime
 " }}}
 " Ruby {{{
 Plug 'vim-ruby/vim-ruby'
-" Plug 'tpope/vim-rails'             " improve to works with rails
+Plug 'tpope/vim-rails'             " improve to works with rails
 Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
 " }}}
 " HTML Bundle {{{
@@ -365,8 +365,9 @@ map <leader>vt <Esc>:Tabularize /;<CR>
 nnoremap <silent> <leader>/ :noh<cr>
 
 " Buffer nav
-noremap <C-Left> :bprevious<CR>
-noremap <C-Right> :bnext<CR>
+" TODO need to fix
+nnoremap <C-Left> :bprevious<CR>
+nnoremap <C-Right> :bnext<CR>
 
 "" Move visual block
 vnoremap <C-Down> :m '>+1<CR>gv=gv
