@@ -28,7 +28,7 @@ call plug#begin(expand('~/.vim/plugged'))
 Plug 'scrooloose/nerdtree'            " files explorer
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight' " color of files  on nerdtree
 Plug 'Xuyuanp/nerdtree-git-plugin'    " git status on nerdtree
-Plug 'ryanoasis/vim-devicons'
+" Plug 'ryanoasis/vim-devicons'
 Plug 'scrooloose/nerdcommenter'       " to comment line/block
 Plug 'tpope/vim-fugitive'             " git status, gblame, gdiff, gbrowse
 Plug 'ctrlpvim/ctrlp.vim'
@@ -38,43 +38,47 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'airblade/vim-gitgutter'         " modified lines by git
 Plug 'Raimondi/delimitMate'           " auto open ([\" '
 Plug 'majutsushi/tagbar'              " list of classes/methods/vars on right sidebar
-Plug 'scrooloose/syntastic'           " syntax check
+" Plug 'scrooloose/syntastic'           " syntax check
 "Plug 'Yggdroot/indentLine'            " display indent lines by |
 " up, esta zoando o estilo do .slim
 Plug 'tomasr/molokai'                 " theme/color
 Plug 'mileszs/ack.vim'                " to find word with Ag
 Plug 'YankRing.vim'                   " history of copy
-Plug 'konfekt/fastfold'               " auto folds
-Plug 'shougo/neocomplete.vim'         " add auto complete
+" Plug 'konfekt/fastfold'               " auto folds
 Plug 'shougo/neosnippet.vim'          " add snippets
 Plug 'shougo/neosnippet-snippets'     " the snippets
 Plug 'sirver/ultisnips'               " complete snippets <TAB>
 Plug 'honza/vim-snippets'
+ " Plug 'shougo/neocomplete.vim'         " add auto complete
 Plug 'godlygeek/tabular'              " to tabularize
 Plug 'gagoar/stripwhitespaces'        " remove useless spaces
 Plug 'tmhedberg/matchit'              " allow % to ruby methods
-Plug 'shougo/neocomplete.vim'
 Plug 'terryma/vim-multiple-cursors'   " multiselect tipo sublime
 " Plug 'gregsexton/gitv'
 " Plug 'cohama/agit.vim'
 " Plug 'chrisbra/csv.vim'
+Plug 'wakatime/vim-wakatime' " productivity metrics
 " }}}
 " Ruby {{{
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'             " improve to works with rails
 Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
 " }}}
+" Go {{{
+Plug 'fatih/vim-go'
+" }}}
 " HTML Bundle {{{
 " Plug 'amirh/HTML-AutoCloseTag'
-Plug 'hail2u/vim-css3-syntax'
-Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
-Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
-Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
+"x Plug 'hail2u/vim-css3-syntax'
+"x Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
+"x Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
+"x Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
 "Plug 'cakebaker/scss-syntax.vim'
 "Plug 'hail2u/vim-css3-syntax'
 " }}}
 " JS {{{
-"Plug 'mxw/vim-jsx'
+Plug 'mxw/vim-jsx'
+Plug 'posva/vim-vue'
 "Plug 'isruslan/vim-es6'
 "Plug 'jaxbot/syntastic-react'
 " }}}
@@ -113,7 +117,7 @@ set incsearch
 set ignorecase
 set smartcase
 "" Encoding
-set bomb
+" NAO UTILIZAR | set bomb | tem problema quando a codificação já é em UTF-8
 " set binary " this break the tabs
 set ttyfast
 "" Directories for swp files
@@ -135,11 +139,11 @@ colorscheme molokai
 set mousemodel=popup
 set t_Co=256
 set guioptions=egmrti
-set gfn=Monospace\ 10
+" set gfn=Monospace\ 14
 
 if has("gui_running")
   if has("gui_mac") || has("gui_macvim")
-    set guifont=Knack\ Nerd\ Font:h15
+    " set guifont=Knack\ Nerd\ Font:h15
     "set guifont=Menlo:h16
     "set guifont=Menlo\ for\ Powerline:h16
     " set guifont=PowerlineSymbols:h16
@@ -211,11 +215,11 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 
 " NerdFonts / DevIcons
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:NERDTreeHighlightFolders = 1         " enables folder icon highlighting using exact match
-let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+" let g:NERDTreeFileExtensionHighlightFullName = 1
+" let g:NERDTreeExactMatchHighlightFullName = 1
+" let g:NERDTreePatternMatchHighlightFullName = 1
+" let g:NERDTreeHighlightFolders = 1         " enables folder icon highlighting using exact match
+" let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
 " NerdtreeGitPlugin
 let g:NERDTreeIndicatorMapCustom = {
@@ -346,6 +350,10 @@ map <leader>rt :!ctags --extra=+f --exclude=.git --exclude=log --exclude=node_mo
 " YankRing
 map <leader>y :YRShow<CR>
 
+" Pry
+nnoremap <leader>pry <insert><CR>binding.pry<CR><ESC>:w<CR>
+nnoremap <leader>rpry <insert><CR>binding.remote_pry<CR><ESC>:w<CR>
+
 " Find merge conflict markers
 map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
 
@@ -364,17 +372,9 @@ map <leader>vt <Esc>:Tabularize /;<CR>
 " Clean search (highlight)
 nnoremap <silent> <leader>/ :noh<cr>
 
-" Buffer nav
-" TODO need to fix
-nnoremap <C-Left> :bprevious<CR>
-nnoremap <C-Right> :bnext<CR>
-
 "" Move visual block
 vnoremap <C-Down> :m '>+1<CR>gv=gv
 vnoremap <C-Up> :m '<-2<CR>gv=gv
-
-" switch to last used buffer
-noremap <leader>l :e#<CR>
 
 " Split
 " noremap <Leader>h :<C-u>split<CR>
@@ -447,7 +447,7 @@ let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
 let g:syntastic_javascript_checkers = ['eslint', 'jsxhint']
 let g:syntastic_javascript_eslint_exec = 'eslint_d'
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
-let g:airline_powerline_fonts = 1
+" let g:airline_powerline_fonts = 1
 
 " Tagbar
 nmap <leader>tb :TagbarToggle<CR>
@@ -480,6 +480,14 @@ endif
 " noremap <leader>q :bp<CR>
 " noremap <leader>x :bn<CR>
 " noremap <leader>w :bn<CR>
+
+" switch to last used buffer
+noremap <leader>l :e#<CR>
+
+" Buffer nav
+" TODO need to fix
+noremap <C-Left> <ESC>:bp<CR>
+noremap <C-Right> <ESC>:bn<CR>
 
 "" Close buffer
 " noremap <leader>c :bd<CR>
@@ -556,10 +564,8 @@ autocmd FileType ruby setlocal omnifunc=rubycomplete#CompleteRuby
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
 " }}}
 " Convenience variables {{{
-
 " vim-airline
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
@@ -585,3 +591,4 @@ if exists('g:airline_powerline_fonts')
   let g:airline_left_sep  = ''
   let g:airline_right_sep = ''
 endif
+" }}}
