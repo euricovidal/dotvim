@@ -72,11 +72,12 @@ Plug 'fatih/vim-go'
 "x Plug 'hail2u/vim-css3-syntax'
 "x Plug 'gorodinskiy/vim-coloresque' " add colors on #000 red
 "x Plug 'mattn/emmet-vim'            " expanding abbreviations htmls tags, ex: html:5
-"x Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
+Plug 'slim-template/vim-slim'  			" syntax highlight to slim template
 "Plug 'cakebaker/scss-syntax.vim'
 "Plug 'hail2u/vim-css3-syntax'
 " }}}
 " JS {{{
+Plug 'kchmck/vim-coffee-script'
 Plug 'mxw/vim-jsx'
 Plug 'posva/vim-vue'
 "Plug 'isruslan/vim-es6'
