@@ -223,7 +223,7 @@ let g:NERDDefaultAlign = 'left'
 " let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
 
 " NerdtreeGitPlugin
-let g:NERDTreeIndicatorMapCustom = {
+let g:NERDTreeGitStatusIndicatorMapCustom = {
     \ "Modified"  : "✹",
     \ "Staged"    : "✚",
     \ "Untracked" : "✭",
@@ -245,19 +245,19 @@ endif
 " Backups {{{
 " Directories for swp files
 set undofile
-" set backupdir=~/.vim/tmp/backup//
+set backupdir=~/.vim/tmp/backup//
 set undodir=~/.vim/tmp/undo//
-" set directory=~/.vim/tmp/swap//
+set directory=~/.vim/tmp/swap//
 
-" if !isdirectory(expand(&backupdir))
-" 	call mkdir(expand(&backupdir), 'p')
-" endif
+if !isdirectory(expand(&backupdir))
+  call mkdir(expand(&backupdir), 'p')
+endif
 if !isdirectory(expand(&undodir))
   call mkdir(expand(&undodir), 'p')
 endif
-" if !isdirectory(expand(&directory))
-" 	call mkdir(expand(&directory), 'p')
-" endif
+if !isdirectory(expand(&directory))
+  call mkdir(expand(&directory), 'p')
+endif
 " }}}
 " Folding {{{
 set foldlevelstart=3
