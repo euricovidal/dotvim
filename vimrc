@@ -63,6 +63,7 @@ Plug 'wakatime/vim-wakatime' " productivity metrics
 Plug 'vim-ruby/vim-ruby'
 Plug 'tpope/vim-rails'             " improve to works with rails
 Plug 'ecomba/vim-ruby-refactoring' " fast improve ruby commands
+Plug 'AndrewRadev/splitjoin.vim'   " toggle multiline block and inline block, gS/gJ
 " }}}
 " Go {{{
 Plug 'fatih/vim-go'
@@ -238,7 +239,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
 
 " Ack
 if executable('ag')
-  let g:ackprg = 'ag --vimgrep --smart-case'
+  let g:ackprg = 'ag --vimgrep --smart-case -i --ignore=tags --ignore-dir=features/cassettes/ --ignore-dir=spec/cassettes/ --ignore-dir=spec/reports/ --ignore-dir=coverage/ --ignore-dir=spec/fixtures/ --ignore-dir=log/ --ignore-dir=tmp/ --ignore-dir=vendor/ --ignore-dir=app/assets/images/'
   cnoreabbrev Ag Ack
 endif
 " }}}
@@ -356,13 +357,13 @@ nnoremap <leader>pry <insert><CR>binding.pry<CR><ESC>:w<CR>
 nnoremap <leader>rpry <insert><CR>binding.remote_pry<CR><ESC>:w<CR>
 
 " Find merge conflict markers
-map <leader>cf <ESC>/\v^[<=>]{7}( .*\|$)<CR>
+map <leader>cf <ESC>/\v^[<=>\|]{7}( .*\|$)<CR>
 
 " Highlight VCS conflict markers
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " JSON Format
-map <leader>jt <Esc>:%!json_xs -f json -t json-pretty<CR>
+map <leader>jt <Esc>:%!ruby -rjson -e "print JSON.pretty_generate(JSON.parse(ARGF.read))"<ESC>=%<CR>
 
 " XML Format
 map <leader>xt <Esc>:1,$!xmllint --format -<CR>
@@ -412,10 +413,11 @@ let g:ctrlp_custom_ignore = '\v[\/](node_modules|target|dist)|(\.(swp|tox|ico|gi
 let g:ctrlp_user_command = "find %s -type f | grep -Ev '"+ g:ctrlp_custom_ignore +"'"
 let g:ctrlp_use_caching = 1
 let g:ctrlp_map = '<leader>p'
+let g:ctrlp_working_path_mode = 'ra'
 
 " The Silver Searcher
 if executable('ag')
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+  let g:ctrlp_user_command = 'ag --vimgrep --smart-case -i %s -l --nocolor -g "" --ignore=tags --ignore-dir=features/cassettes/ --ignore-dir=spec/cassettes/ --ignore-dir=spec/reports/ --ignore-dir=coverage/ --ignore-dir=spec/fixtures/ --ignore-dir=log/ --ignore-dir=tmp/ --ignore-dir=vendor/ --ignore-dir=app/assets/images/'
   let g:ctrlp_use_caching = 0
 endif
 
