@@ -330,6 +330,12 @@ augroup vimrc-ruby
   autocmd FileType ruby set foldmethod=syntax
 augroup END
 
+augroup vimrc-python
+  autocmd!
+  autocmd BufNewFile,BufRead *.py setlocal filetype=python
+  autocmd FileType python set foldmethod=indent
+augroup END
+
 " Resize splits when the window is resized
 " au VimResized * :wincmd =
 augroup ft_vim
