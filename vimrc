@@ -290,10 +290,42 @@ if !exists('*s:setupWrapping')
 endif
 " }}}
 " Highlight word {{{
-highlight InterestingWord  ctermbg=yellow guibg=yellow ctermfg=black guifg=#000000
-highlight InterestingWord1 ctermbg=green  guibg=green  ctermfg=black guifg=#000000
-highlight InterestingWord2 ctermbg=blue   guibg=blue   ctermfg=black guifg=#000000
-highlight InterestingWord3 ctermbg=red    guibg=red    ctermfg=white guifg=#FFFFFF
+highlight InterestingWord  ctermbg=yellow  guibg=yellow  ctermfg=black guifg=#000000
+highlight InterestingWord1 ctermbg=green   guibg=green   ctermfg=black guifg=#000000
+highlight InterestingWord2 ctermbg=blue    guibg=blue    ctermfg=black guifg=#000000
+highlight InterestingWord3 ctermbg=cyan    guibg=cyan    ctermfg=black guifg=#000000
+highlight InterestingWord4 ctermbg=magenta guibg=magenta ctermfg=white guifg=#FFFFFF
+highlight InterestingWord5 ctermbg=gray    guibg=gray    ctermfg=white guifg=#FFFFFF
+highlight InterestingWord6 ctermbg=white   guibg=white   ctermfg=black guifg=#000000
+highlight InterestingWord7 ctermbg=brown   guibg=brown   ctermfg=white guifg=#FFFFFF
+highlight InterestingWord8 ctermbg=black   guibg=black   ctermfg=white guifg=#FFFFFF
+highlight InterestingWord9 ctermbg=red     guibg=red     ctermfg=white guifg=#FFFFFF
+
+function! HighlightCurrentWord(highlight_number)
+  let exclude_ft = ["nerdtree", "fugitive", "fzf"]
+  let hn = string(a:highlight_number)
+  let id = 48000 + hn
+  if index(exclude_ft, &filetype) == -1
+    try
+      call matchdelete(id)
+    catch
+    endtry
+    let current_word = escape(expand("<cword>"), "\\/[]*~")
+    call matchadd("InterestingWord" . hn, "\\<" . current_word ."\\>", 0, id)
+  endif
+endfunction
+
+" method to clear all highlights (matchadd and match)
+function! HighlightClear()
+  " nohl
+  match none
+  for i in range(1, 9)
+    try
+      call matchdelete(48000 + i)
+    catch
+    endtry
+  endfor
+endfunction
 
 "autocmd BufEnter * highlight OverLength ctermbg=black guibg=#003542 guibg=#592929
 "autocmd BufEnter * highlight OverLength ctermbg=red guibg=#FF0000
@@ -301,9 +333,22 @@ autocmd BufEnter * highlight OverLength ctermbg=red guibg=#AA3333
 autocmd BufEnter * match OverLength /\%121v.*/
 
 nnoremap <leader>hh :execute 'match InterestingWord /\<<c-r><c-w>\>/'<cr>
-nnoremap <leader>h1 :execute '1match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
-nnoremap <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
-nnoremap <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+" nnoremap <leader>h1 :execute '1match InterestingWord1 /\<<c-r><c-w>\>/'<cr>
+" nnoremap <leader>h2 :execute '2match InterestingWord2 /\<<c-r><c-w>\>/'<cr>
+" nnoremap <leader>h3 :execute '3match InterestingWord3 /\<<c-r><c-w>\>/'<cr>
+
+nnoremap <leader>h1 :call HighlightCurrentWord(1)<cr>
+nnoremap <leader>h2 :call HighlightCurrentWord(2)<cr>
+nnoremap <leader>h3 :call HighlightCurrentWord(3)<cr>
+nnoremap <leader>h4 :call HighlightCurrentWord(4)<cr>
+nnoremap <leader>h5 :call HighlightCurrentWord(5)<cr>
+nnoremap <leader>h6 :call HighlightCurrentWord(6)<cr>
+nnoremap <leader>h7 :call HighlightCurrentWord(7)<cr>
+nnoremap <leader>h8 :call HighlightCurrentWord(8)<cr>
+nnoremap <leader>h9 :call HighlightCurrentWord(9)<cr>
+nnoremap <leader>hc :call HighlightClear()<cr>
+
+
 " }}}
 " Autocmd Rules {{{
 " The PC is fast enough, do syntax highlight syncing from start
@@ -495,8 +540,8 @@ noremap <leader>l :e#<CR>
 
 " Buffer nav
 " TODO need to fix
-noremap <C-Left> <ESC>:bp<CR>
-noremap <C-Right> <ESC>:bn<CR>
+noremap <C-S-Left> <ESC>:bp<CR>
+noremap <C-S-Right> <ESC>:bn<CR>
 
 "" Close buffer
 " noremap <leader>c :bd<CR>
